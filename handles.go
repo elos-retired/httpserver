@@ -39,7 +39,7 @@ func Auth(h AuthHandle, s data.Store) httprouter.Handle {
 		agent, authenticated, err := transfer.AuthenticateRequest(s, r)
 		if err != nil {
 			log.Printf("An error occurred during authentication, err: %s", err)
-			// h.NewErrorHandler(err).ServeHTTP(w, r)
+			Error(err)(w, r, ps)
 			return
 		}
 
@@ -48,7 +48,7 @@ func Auth(h AuthHandle, s data.Store) httprouter.Handle {
 			log.Printf("Agent with id %s authenticated", agent.ID())
 		} else {
 			log.Printf("Agent with id %s authenticated", agent.ID())
-			//	h.NewUnauthorizedHandler("Not authenticated").ServeHTTP(w, r)
+			BadAuth("Not authenticated")(w, r, ps)
 		}
 
 	}
