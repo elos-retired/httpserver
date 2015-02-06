@@ -18,7 +18,9 @@ type HTTPServer struct {
 	host string
 	port int
 
-	*autonomous.Core
+	autonomous.Life
+	autonomous.Stopper
+
 	*autonomous.AgentHub
 	data.Store
 	*httprouter.Router
@@ -27,14 +29,14 @@ type HTTPServer struct {
 }
 
 func NewHTTPServer(host string, port int, s data.Store) *HTTPServer {
-	return &HTTPServer{
-		host:           host,
-		port:           port,
-		Core:           autonomous.NewCore(),
-		AgentHub:       autonomous.NewAgentHub(),
-		Store:          s,
-		SocketRequests: make(chan *agents.ClientDataAgent, 10),
-	}
+	server := new(HTTPServer)
+	server.host = host
+	server.port = port
+	server.AgentHub = autonomous.NewAgentHub()
+	server.Store = s
+	server.Life = autonomous.NewLife()
+
+	return server
 }
 
 func New(host string, port int, s data.Store) *HTTPServer {
@@ -43,27 +45,26 @@ func New(host string, port int, s data.Store) *HTTPServer {
 
 func (s *HTTPServer) Run() {
 	s.startup()
-	stopChannel := s.Core.StopChannel()
+	s.Life.Begin()
 
+Run:
 	for {
 		select {
-		case a := <-s.SocketRequests:
-			s.AgentHub.StartAgent(a)
-		case _ = <-*stopChannel:
-			s.shutdown()
-			break
+		case _ = <-s.Stopper:
+			break Run
 		}
 	}
+
+	s.shutdown()
+	s.Life.End()
 }
 
 func (a *HTTPServer) startup() {
-	a.Core.Startup()
 	a.SetupRoutes()
 	go a.Listen()
 }
 
 func (a *HTTPServer) shutdown() {
-	a.Core.Shutdown()
 }
 
 func list(v ...string) []string {
@@ -77,7 +78,7 @@ func (s *HTTPServer) SetupRoutes() {
 
 	router.POST("/v1/events/", Auth(Post(models.EventKind, list("name")), s.Store))
 
-	router.GET("/v1/authenticate", Auth(WebSocket(transfer.DefaultWebSocketUpgrader, s.SocketRequests), s.Store))
+	router.GET("/v1/authenticate", Auth(WebSocket(transfer.DefaultWebSocketUpgrader, s), s.Store))
 
 	s.Router = router
 }

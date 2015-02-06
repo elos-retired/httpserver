@@ -5,12 +5,13 @@ import (
 	"net/http"
 
 	"github.com/elos/agents"
+	"github.com/elos/autonomous"
 	"github.com/elos/data"
 	"github.com/elos/transfer"
 	"github.com/julienschmidt/httprouter"
 )
 
-func WebSocket(u transfer.WebSocketUpgrader, sockets chan *agents.ClientDataAgent) AuthHandle {
+func WebSocket(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AuthHandle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, a data.Identifiable, s data.Store) {
 		conn, err := u.Upgrade(w, r, a)
 
@@ -23,6 +24,6 @@ func WebSocket(u transfer.WebSocketUpgrader, sockets chan *agents.ClientDataAgen
 		log.Printf("Agent with id %s just connected over websocket", a.ID())
 
 		agent := agents.NewClientDataAgent(conn, s)
-		go func() { sockets <- agent }()
+		connMan.StartAgent(agent)
 	}
 }
