@@ -12,7 +12,7 @@ import (
 )
 
 func WebSocket(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AuthHandle {
-	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, a data.Identifiable, s data.Store) {
+	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, a *data.Access) {
 		conn, err := u.Upgrade(w, r, a)
 
 		if err != nil {
@@ -23,7 +23,7 @@ func WebSocket(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AuthHan
 
 		log.Printf("Agent with id %s just connected over websocket", a.ID())
 
-		agent := agents.NewClientDataAgent(conn, s)
+		agent := agents.NewClientDataAgent(conn, a)
 		connMan.StartAgent(agent)
 	}
 }

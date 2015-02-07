@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/elos/agents"
 	"github.com/elos/autonomous"
 	"github.com/elos/data"
 	"github.com/elos/models"
@@ -21,18 +20,17 @@ type HTTPServer struct {
 	autonomous.Life
 	autonomous.Stopper
 
-	*autonomous.AgentHub
+	*autonomous.Hub
 	data.Store
 	*httprouter.Router
-
-	SocketRequests chan *agents.ClientDataAgent
 }
 
 func NewHTTPServer(host string, port int, s data.Store) *HTTPServer {
 	server := new(HTTPServer)
+
 	server.host = host
 	server.port = port
-	server.AgentHub = autonomous.NewAgentHub()
+	server.Hub = autonomous.NewHub()
 	server.Store = s
 	server.Life = autonomous.NewLife()
 
@@ -43,28 +41,12 @@ func New(host string, port int, s data.Store) *HTTPServer {
 	return NewHTTPServer(host, port, s)
 }
 
-func (s *HTTPServer) Run() {
-	s.startup()
+func (s *HTTPServer) Start() {
+	s.SetupRoutes()
+	go s.Listen()
 	s.Life.Begin()
-
-Run:
-	for {
-		select {
-		case _ = <-s.Stopper:
-			break Run
-		}
-	}
-
-	s.shutdown()
+	<-s.Stopper
 	s.Life.End()
-}
-
-func (a *HTTPServer) startup() {
-	a.SetupRoutes()
-	go a.Listen()
-}
-
-func (a *HTTPServer) shutdown() {
 }
 
 func list(v ...string) []string {
@@ -86,7 +68,7 @@ func (s *HTTPServer) SetupRoutes() {
 func (a *HTTPServer) Listen() {
 	serving_url := fmt.Sprintf("%s:%d", a.host, a.port)
 
-	log.Print("Serving at http://%s", serving_url)
+	log.Printf("Serving at http://%s", serving_url)
 
 	log.Fatal(http.ListenAndServe(serving_url, logging.LogRequest(a.Router)))
 }
