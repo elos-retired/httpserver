@@ -9,7 +9,7 @@ import (
 	"github.com/elos/data"
 	"github.com/elos/models"
 	"github.com/elos/stack/util/logging"
-	"github.com/elos/transfer"
+	t "github.com/elos/transfer"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -33,6 +33,7 @@ func NewHTTPServer(host string, port int, s data.Store) *HTTPServer {
 	server.Hub = autonomous.NewHub()
 	server.Store = s
 	server.Life = autonomous.NewLife()
+	server.Stopper = make(autonomous.Stopper)
 
 	return server
 }
@@ -56,11 +57,11 @@ func list(v ...string) []string {
 func (s *HTTPServer) SetupRoutes() {
 	router := httprouter.New()
 
-	router.POST("/v1/users/", Auth(Post(models.UserKind, list("name")), s.Store))
+	router.POST("/v1/users/", Auth(Post(models.UserKind, list("name")), t.Auth(t.HTTPCredentialer), s.Store))
 
-	router.POST("/v1/events/", Auth(Post(models.EventKind, list("name")), s.Store))
+	router.POST("/v1/events/", Auth(Post(models.EventKind, list("name")), t.Auth(t.HTTPCredentialer), s.Store))
 
-	router.GET("/v1/authenticate", Auth(WebSocket(transfer.DefaultWebSocketUpgrader, s), s.Store))
+	router.GET("/v1/authenticate", Auth(WebSocket(t.DefaultUpgrader, s), t.Auth(t.SocketCredentialer), s.Store))
 
 	s.Router = router
 }
