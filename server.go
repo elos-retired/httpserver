@@ -57,7 +57,7 @@ func list(v ...string) []string {
 func (s *HTTPServer) SetupRoutes() {
 	router := httprouter.New()
 
-	router.POST("/v1/users/", Auth(Post(models.UserKind, list("name")), t.Auth(t.HTTPCredentialer), s.Store))
+	router.POST("/v1/users/", Access(Post(models.UserKind, list("name")), data.NewAnonAccess(s.Store)))
 
 	router.POST("/v1/events/", Auth(Post(models.EventKind, list("name")), t.Auth(t.HTTPCredentialer), s.Store))
 

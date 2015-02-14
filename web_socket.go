@@ -11,7 +11,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func WebSocket(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AuthHandle {
+func WebSocket(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AccessHandle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, a *data.Access) {
 		conn, err := u.Upgrade(w, r, a)
 

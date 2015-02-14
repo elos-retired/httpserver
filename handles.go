@@ -32,11 +32,11 @@ func BadAuth(reason string) httprouter.Handle {
 	}
 }
 
-type AuthHandle func(http.ResponseWriter, *http.Request, httprouter.Params, *data.Access)
+type AccessHandle func(http.ResponseWriter, *http.Request, httprouter.Params, *data.Access)
 
-func Auth(h AuthHandle, s data.Store) httprouter.Handle {
+func Auth(h AccessHandle, auther transfer.Authenticator, s data.Store) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		client, authenticated, err := transfer.AuthenticateRequest(s, r)
+		client, authenticated, err := auther(s, r)
 		if err != nil {
 			log.Printf("An error occurred during authentication, err: %s", err)
 			Error(err)(w, r, ps)
@@ -55,7 +55,13 @@ func Auth(h AuthHandle, s data.Store) httprouter.Handle {
 	}
 }
 
-func Post(k data.Kind, params []string) AuthHandle {
+func Access(h AccessHandle, a *data.Access) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		h(w, r, ps, a)
+	}
+}
+
+func Post(k data.Kind, params []string) AccessHandle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, access *data.Access) {
 		attrs := make(data.AttrMap)
 
