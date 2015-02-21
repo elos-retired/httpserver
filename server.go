@@ -44,6 +44,7 @@ func New(host string, port int, s data.Store) *HTTPServer {
 
 func (s *HTTPServer) Start() {
 	s.SetupRoutes()
+	go s.Hub.Start()
 	go s.Listen()
 	s.Life.Begin()
 	<-s.Stopper
@@ -62,6 +63,8 @@ func (s *HTTPServer) SetupRoutes() {
 	router.POST("/v1/events/", Auth(Post(models.EventKind, list("name")), t.Auth(t.HTTPCredentialer), s.Store))
 
 	router.GET("/v1/authenticate", Auth(WebSocket(t.DefaultUpgrader, s), t.Auth(t.SocketCredentialer), s.Store))
+
+	router.GET("/v1/repl", Auth(REPL(t.DefaultUpgrader, s), t.Auth(t.SocketCredentialer), s.Store))
 
 	s.Router = router
 }
