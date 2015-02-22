@@ -12,8 +12,8 @@ import (
 )
 
 func WebSocket(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AccessHandle {
-	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, a *data.Access) {
-		conn, err := u.Upgrade(w, r, a)
+	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, a data.Access) {
+		conn, err := u.Upgrade(w, r, a.Client())
 
 		if err != nil {
 			log.Printf("An error occurred while upgrading to the websocket protocol, err: %s", err)
@@ -21,7 +21,7 @@ func WebSocket(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AccessH
 			return
 		}
 
-		log.Printf("Agent with id %s just connected over websocket to ClientData", a.ID())
+		log.Printf("Agent with id %s just connected over websocket to ClientData", a.Client().ID())
 
 		agent := agents.NewClientDataAgent(conn, a)
 		connMan.StartAgent(agent)
@@ -29,8 +29,8 @@ func WebSocket(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AccessH
 }
 
 func REPL(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AccessHandle {
-	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, a *data.Access) {
-		conn, err := u.Upgrade(w, r, a)
+	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, a data.Access) {
+		conn, err := u.Upgrade(w, r, a.Client())
 
 		if err != nil {
 			log.Printf("An error occurred while upgrading to the websocket protocol, err: %s", err)
@@ -38,7 +38,7 @@ func REPL(u transfer.WebSocketUpgrader, connMan autonomous.Manager) AccessHandle
 			return
 		}
 
-		log.Printf("Agent with id %s just connected over websocket to REPL", a.ID())
+		log.Printf("Agent with id %s just connected over websocket to REPL", a.Client().ID())
 
 		agent := agents.NewREPLAgent(conn, a)
 		connMan.StartAgent(agent)

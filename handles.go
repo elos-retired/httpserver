@@ -32,7 +32,7 @@ func BadAuth(reason string) httprouter.Handle {
 	}
 }
 
-type AccessHandle func(http.ResponseWriter, *http.Request, httprouter.Params, *data.Access)
+type AccessHandle func(http.ResponseWriter, *http.Request, httprouter.Params, data.Access)
 
 func Auth(h AccessHandle, auther transfer.Authenticator, s data.Store) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -55,21 +55,21 @@ func Auth(h AccessHandle, auther transfer.Authenticator, s data.Store) httproute
 	}
 }
 
-func Access(h AccessHandle, a *data.Access) httprouter.Handle {
+func Access(h AccessHandle, a data.Access) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		h(w, r, ps, a)
 	}
 }
 
 func Post(k data.Kind, params []string) AccessHandle {
-	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, access *data.Access) {
+	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params, access data.Access) {
 		attrs := make(data.AttrMap)
 
 		for _, k := range params {
 			attrs[k] = r.FormValue(k)
 		}
 
-		c := transfer.NewHTTPConnection(w, r, access.Client)
+		c := transfer.NewHTTPConnection(w, r, access.Client())
 		e := transfer.New(c, transfer.POST, k, attrs)
 		go transfer.Route(e, access)
 	}
