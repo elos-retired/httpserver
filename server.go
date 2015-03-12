@@ -7,9 +7,7 @@ import (
 
 	"github.com/elos/autonomous"
 	"github.com/elos/data"
-	"github.com/elos/models"
 	"github.com/elos/stack/util/logging"
-	t "github.com/elos/transfer"
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
 )
@@ -31,10 +29,13 @@ func NewHTTPServer(host string, port int, s data.Store) *HTTPServer {
 
 	server.host = host
 	server.port = port
-	server.Store = s
-	server.Hub = autonomous.NewHub()
+
 	server.Life = autonomous.NewLife()
 	server.Stopper = make(autonomous.Stopper)
+
+	server.Hub = autonomous.NewHub()
+	server.Store = s
+	server.Router = httprouter.New()
 
 	return server
 }
@@ -44,41 +45,14 @@ func New(host string, port int, s data.Store) *HTTPServer {
 }
 
 func (s *HTTPServer) Start() {
-	s.SetupRoutes()
+	setupAPI(s)
+	setupRoutes(s)
+
 	go s.Hub.Start()
 	go s.Listen()
 	s.Life.Begin()
 	<-s.Stopper
 	s.Life.End()
-}
-
-func list(v ...string) []string {
-	return v
-}
-
-func (s *HTTPServer) SetupRoutes() {
-	router := httprouter.New()
-
-	router.POST("/v1/users/",
-		Access(Post(models.UserKind, list("name")), data.NewAnonAccess(s.Store)))
-
-	router.POST("/v1/events/",
-		Auth(Post(models.EventKind, list("name")), t.Auth(t.HTTPCredentialer), s.Store))
-
-	router.GET("/v1/authenticate",
-		Auth(WebSocket(t.DefaultUpgrader, s), t.Auth(t.SocketCredentialer), s.Store))
-
-	router.GET("/v1/repl",
-		Auth(REPL(t.DefaultUpgrader, s), t.Auth(t.SocketCredentialer), s.Store))
-
-	router.GET("/", Template("index.html"))
-	router.GET("/sign-in", Template("sign-in.html"))
-	router.POST("/sign-in", Auth(SignInHandle, t.Auth(t.FormCredentialer), s.Store))
-
-	router.ServeFiles("/css/*filepath", http.Dir(cssDir))
-	router.ServeFiles("/img/*filepath", http.Dir(imgDir))
-
-	s.Router = router
 }
 
 func (a *HTTPServer) Listen() {

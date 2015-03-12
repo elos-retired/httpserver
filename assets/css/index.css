@@ -1,0 +1,60 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+h1 {
+    width: 100%;
+    position: absolute;
+    top: 70%;
+    text-align: center;
+    color: white;
+    font-family: "Avenir Next Regular";
+    letter-spacing: 2px;
+}
+
+h2 {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: .8em;
+    color: #00FFA3;
+    font-family: "Avenir Next UltraLight";
+}
+
+.button {
+    color: #00FFA3;
+    background: none;
+    border: 1px #00FFA3 solid;
+    outline: none;
+    font-size: .85em;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.sign-in-button {
+    width: 90px;
+    top: 20px;
+    right: 20px;
+    position: absolute;
+    font-family: "Avenir Next Regular";
+    border-radius: 5px;
+}
+
+.register-button {
+    color: #FF005C;
+    border: 1px #FF005C solid;
+    width: 90px;
+    top: 20px;
+    left: 20px;
+    position: absolute;
+    font-family: "Avenir Next Regular";
+    border-radius: 5px;
+}

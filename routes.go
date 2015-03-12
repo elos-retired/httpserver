@@ -10,6 +10,7 @@ import (
 
 	"github.com/elos/data"
 	"github.com/elos/models"
+	t "github.com/elos/transfer"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -19,6 +20,15 @@ var (
 	imgDir       = filepath.Join(assetsDir, "img")
 	cssDir       = filepath.Join(assetsDir, "css")
 )
+
+func setupRoutes(s *HTTPServer) {
+	s.GET("/", Template("index.html"))
+	s.GET("/sign-in", Template("sign-in.html"))
+	s.POST("/sign-in", Auth(SignInHandle, t.Auth(t.FormCredentialer), s.Store))
+
+	s.ServeFiles("/css/*filepath", http.Dir(cssDir))
+	s.ServeFiles("/img/*filepath", http.Dir(imgDir))
+}
 
 func defaultBase(path string) string {
 	p, err := build.Default.Import(path, "", build.FindOnly)
