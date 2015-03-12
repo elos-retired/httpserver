@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/elos/autonomous"
 	"github.com/elos/data"
@@ -57,8 +56,6 @@ func list(v ...string) []string {
 	return v
 }
 
-var ResourcesDir = os.Getenv("ELOS_HTTPSERVER_RESOURCES_DIR")
-
 func (s *HTTPServer) SetupRoutes() {
 	router := httprouter.New()
 
@@ -77,7 +74,9 @@ func (s *HTTPServer) SetupRoutes() {
 	router.GET("/", Template("index.html"))
 	router.GET("/sign-in", Template("sign-in.html"))
 	router.POST("/sign-in", Auth(SignInHandle, t.Auth(t.FormCredentialer), s.Store))
-	router.ServeFiles("/resources/*filepath", http.Dir(ResourcesDir))
+
+	router.ServeFiles("/css/*filepath", http.Dir(cssDir))
+	router.ServeFiles("/img/*filepath", http.Dir(imgDir))
 
 	s.Router = router
 }
