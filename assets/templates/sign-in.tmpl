@@ -2,12 +2,8 @@
 
 {{define "Form"}}
     <form action="/sign-in" method="POST">
-        ID:<br>
-        <input type="text" name="id" value="">
-        <br>
-        Key:<br>
-        <input type="text" name="key" value="">
-        <br><br>
-        <input type="submit" value="Submit">
+        <input type="text" name="id" value="" placeholder="ID">
+        <input type="text" name="key" value="" placeholder="Key">
+        <input type="submit" class="float-right" value="Sign In">
     </form>
 {{end}}

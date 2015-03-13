@@ -20,9 +20,6 @@ input[type="text"] {
     background: #F9F9F9;
     border: 1px solid #979797;
     border-radius: 8px;
-}
-
-input.name {
     font-family: "Avenir Next UltraLight";
     color: #979797;
     width: 100%;
@@ -30,8 +27,8 @@ input.name {
     padding-left: 10px;
     font-size: 1em;
     line-height: 1.5em;
+    margin-bottom: 5px;
 }
-
 
 input[type="submit"] {
     background: none;
@@ -43,8 +40,7 @@ input[type="submit"] {
     color: #00FFA3;
 }
 
-input[type="submit"].right {
-    margin-top: 5px;
+input[type="submit"].float-right {
     position:relative;
     float: right;
 }
