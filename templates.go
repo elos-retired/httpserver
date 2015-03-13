@@ -8,9 +8,10 @@ import (
 )
 
 var templateSets = map[string][]string{
-	"index":    {"index.html"},
-	"sign-in":  {"layout.tmpl", "sessions.tmpl", "sign-in.tmpl"},
-	"register": {"layout.tmpl", "sessions.tmpl", "register.tmpl"},
+	"index":           {"index.html"},
+	"sign-in":         {"layout.tmpl", "sessions.tmpl", "sign-in.tmpl"},
+	"register":        {"layout.tmpl", "sessions.tmpl", "register.tmpl"},
+	"account-created": {"layout.tmpl", "sessions.tmpl", "account-created.tmpl"},
 }
 
 func init() {

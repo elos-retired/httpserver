@@ -1,7 +1,6 @@
 package httpserver
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -24,10 +23,10 @@ var (
 )
 
 func setupRoutes(s *HTTPServer) {
-	s.GET("/", Template("index"))
-	s.GET("/sign-in", Template("sign-in"))
+	s.GET("/", Template("index", nil))
+	s.GET("/sign-in", Template("sign-in", nil))
 	s.POST("/sign-in", Auth(SignInHandle, t.Auth(t.FormCredentialer), s.Store))
-	s.GET("/register", Template("register"))
+	s.GET("/register", Template("register", nil))
 	s.POST("/register", RegisterHandle(s.Store))
 
 	s.ServeFiles("/css/*filepath", http.Dir(cssDir))
@@ -45,16 +44,20 @@ func defaultBase(path string) string {
 type Page struct {
 }
 
-func Template(name string) httprouter.Handle {
+func Template(name string, data interface{}) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-		t := templates[name]
-		if t == nil {
-			http.NotFound(w, r)
-			log.Print("template not found")
-			return
-		}
-		t.Execute(w, Page{})
+		renderTemplate(w, r, name, data)
 	}
+}
+
+func renderTemplate(w http.ResponseWriter, r *http.Request, name string, data interface{}) {
+	t := templates[name]
+	if t == nil {
+		http.NotFound(w, r)
+		log.Print("template not found")
+		return
+	}
+	t.Execute(w, data)
 }
 
 func RegisterTemplate(n string) httprouter.Handle {
@@ -81,13 +84,6 @@ func RegisterHandle(s data.Store) httprouter.Handle {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		WelcomeHandle(w, u)
+		renderTemplate(w, r, "account-created", u)
 	}
-}
-
-func WelcomeHandle(w http.ResponseWriter, u models.User) {
-	s := fmt.Sprintf("Welcome %s, we have created an account for you. These are your credentials: ID: %s | Key: %s ",
-		u.Name(), u.ID().String(), u.Key())
-
-	w.Write([]byte(s))
 }

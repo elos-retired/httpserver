@@ -30,6 +30,16 @@ input[type="text"] {
     margin-bottom: 5px;
 }
 
+input:focus {
+    outline: none;
+}
+
+div.account-created {
+    width: 50%;
+    margin: 0 auto;
+}
+
+
 input[type="submit"] {
     background: none;
     border: none;
@@ -40,7 +50,34 @@ input[type="submit"] {
     color: #00FFA3;
 }
 
+input[type="text"]:disabled {
+    font-family: "Avenir Next Regular";
+    background: #DDDDDD;
+    border: 1px solid #00FFA3;
+    font-size: .9em;
+}
+
 input[type="submit"].float-right {
     position:relative;
     float: right;
+}
+
+.text {
+    font-family: "Avenir Next Regular";
+    font-size: .8em;
+    color: #000000;
+    line-height: 25px;
+    margin: 10px 0;
+}
+
+a {
+    font-family: "Avenir Next Regular";
+    background: none;
+    border: none;
+    outline: none;
+    font-size: .85em;
+    padding: 5px;
+    cursor: pointer;
+    color: #00FFA3;
+    text-decoration: none;
 }
