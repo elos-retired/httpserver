@@ -1,6 +1,7 @@
 package httpserver
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 
 	"github.com/elos/data"
 	"github.com/elos/models"
+	"github.com/elos/models/user"
 	t "github.com/elos/transfer"
 	"github.com/julienschmidt/httprouter"
 )
@@ -25,6 +27,8 @@ func setupRoutes(s *HTTPServer) {
 	s.GET("/", Template("index.html"))
 	s.GET("/sign-in", Template("sign-in.html"))
 	s.POST("/sign-in", Auth(SignInHandle, t.Auth(t.FormCredentialer), s.Store))
+	s.GET("/register", Template("register.html"))
+	s.POST("/register", RegisterHandle(s.Store))
 
 	s.ServeFiles("/css/*filepath", http.Dir(cssDir))
 	s.ServeFiles("/img/*filepath", http.Dir(imgDir))
@@ -55,4 +59,22 @@ func Template(name string) httprouter.Handle {
 
 func SignInHandle(w http.ResponseWriter, r *http.Request, p httprouter.Params, a data.Access) {
 	w.Write([]byte("hello" + a.Client().(models.User).Name()))
+}
+
+func RegisterHandle(s data.Store) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		u, err := user.NewWithName(s, r.FormValue("name"))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		WelcomeHandle(w, u)
+	}
+}
+
+func WelcomeHandle(w http.ResponseWriter, u models.User) {
+	s := fmt.Sprintf("Welcome %s, we have created an account for you. These are your credentials: ID: %s | Key: %s ",
+		u.Name(), u.ID().String(), u.Key())
+
+	w.Write([]byte(s))
 }
