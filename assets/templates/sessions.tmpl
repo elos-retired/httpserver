@@ -1,0 +1,12 @@
+{{define "Head"}}
+    <link rel="stylesheet" type="text/css" href="/css/sessions.css">
+{{end}}
+
+{{define "Body"}}
+<div class="container">
+    <h1 class="title center">
+    {{template "Title" $}}
+    </h1>
+    {{template "Form" $}}
+</div>
+{{end}}

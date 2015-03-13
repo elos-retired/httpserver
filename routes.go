@@ -24,10 +24,10 @@ var (
 )
 
 func setupRoutes(s *HTTPServer) {
-	s.GET("/", Template("index.html"))
-	s.GET("/sign-in", Template("sign-in.html"))
+	s.GET("/", Template("index"))
+	s.GET("/sign-in", Template("sign-in"))
 	s.POST("/sign-in", Auth(SignInHandle, t.Auth(t.FormCredentialer), s.Store))
-	s.GET("/register", Template("register.html"))
+	s.GET("/register", Template("register"))
 	s.POST("/register", RegisterHandle(s.Store))
 
 	s.ServeFiles("/css/*filepath", http.Dir(cssDir))
@@ -47,13 +47,26 @@ type Page struct {
 
 func Template(name string) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-		path := filepath.Join(templatesDir, name)
-		t, err := template.ParseFiles(path)
+		t := templates[name]
+		if t == nil {
+			http.NotFound(w, r)
+			log.Print("template not found")
+			return
+		}
+		t.Execute(w, Page{})
+	}
+}
+
+func RegisterTemplate(n string) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		path1 := filepath.Join(templatesDir, n)
+		path2 := filepath.Join(templatesDir, "layout.html")
+		t, err := template.ParseFiles(path1, path2)
 		if err != nil {
 			log.Print("Template error: %s", err)
 			return
 		}
-		t.Execute(w, Page{})
+		log.Print(t.Execute(w, Page{}))
 	}
 }
 
