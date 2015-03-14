@@ -2,9 +2,17 @@ package httpserver
 
 import (
 	"html/template"
+
 	// "io"
 	"log"
 	"path/filepath"
+)
+
+var (
+	assetsDir    = filepath.Join(defaultBase("github.com/elos/httpserver"), "assets")
+	templatesDir = filepath.Join(assetsDir, "templates")
+	imgDir       = filepath.Join(assetsDir, "img")
+	cssDir       = filepath.Join(assetsDir, "css")
 )
 
 var templateSets = map[string][]string{
@@ -12,6 +20,7 @@ var templateSets = map[string][]string{
 	"sign-in":         {"layout.tmpl", "sessions.tmpl", "sign-in.tmpl"},
 	"register":        {"layout.tmpl", "sessions.tmpl", "register.tmpl"},
 	"account-created": {"layout.tmpl", "sessions.tmpl", "account-created.tmpl"},
+	"calendar":        {"layout.tmpl", "calendar.tmpl"},
 }
 
 func init() {
