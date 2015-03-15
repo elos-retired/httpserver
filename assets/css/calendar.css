@@ -1,0 +1,32 @@
+table {
+    position: absolute;
+    top: 4em;
+    height: 80%;
+    width: 100%;
+}
+
+thead {
+    background: #DDDDDD;
+    border: 1px solid #979797;
+}
+
+thead tr {
+    border: none;
+}
+
+th {
+    height: 2.4em;
+    vertical-align: center;
+    text-align: center;
+    font-family: "Avenir Next UltraLight";
+    font-size: 1em;
+    color: #979797;
+    border: none;
+}
+
+tbody {
+}
+
+.fixture {
+    background: blue;
+}

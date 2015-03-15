@@ -1,4 +1,4 @@
-package httpserver
+package handles
 
 import (
 	"log"
@@ -48,8 +48,7 @@ func Auth(h AccessHandle, auther transfer.Authenticator, s data.Store) httproute
 			h(w, r, ps, access)
 			log.Printf("Client with id %s authenticated", client.ID())
 		} else {
-			log.Printf("Client with id %s authenticated", client.ID())
-			BadAuth("Not authenticated")(w, r, ps)
+			http.Redirect(w, r, "/sign-in", 402)
 		}
 
 	}

@@ -3,17 +3,26 @@
 {{end}}
 
 {{define "Body"}}
-<table>
+<table border="0">
     <thead>
         <tr>
-            <td>
-            </td>
+            {{range .Days}}
+                <th> {{.Header}} </th>
+            {{end}}
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>
-            </td>
+            {{range .Days}}
+                <td>
+                {{range .Fixtures}}
+                    <div class="fixture"
+                    style="position: relative; top:{{ .RelStart }}%; height:{{.RelHeight}}%; width: 100%;">
+                    {{.Name}}
+                    </div>
+                {{end}}
+                </td>
+            {{end}}
         </tr>
     </tbody>
 </table>
