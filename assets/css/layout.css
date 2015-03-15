@@ -1,0 +1,9 @@
+.elos {
+    font-size: .8em;
+    color: #00FFA3;
+    font-family: "Avenir Next UltraLight";
+}
+
+.elos.layout {
+    text-align: center;
+}

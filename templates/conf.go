@@ -34,7 +34,7 @@ const (
 )
 
 var templateSets = map[TemplateName][]string{
-	Index:          {"index.html"},
+	Index:          {"layout.tmpl", "index.html"},
 	SignIn:         {"layout.tmpl", "sessions.tmpl", "sign-in.tmpl"},
 	Register:       {"layout.tmpl", "sessions.tmpl", "register.tmpl"},
 	AccountCreated: {"layout.tmpl", "sessions.tmpl", "account-created.tmpl"},
