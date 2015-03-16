@@ -11,11 +11,11 @@ import (
 )
 
 func RenderCalendar(w http.ResponseWriter, r *http.Request, a data.Access, u models.User) {
-	renderTemplate(w, r, Calendar, calendarWeek(a, u))
+	renderTemplate(w, r, UserCalendar, calendarWeek(a, u))
 }
 
 func RenderFakeCalendar(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, r, Calendar, &CalendarWeek{
+	renderTemplate(w, r, UserCalendar, &CalendarWeek{
 		Days: []*CalendarDay{
 			&CalendarDay{
 				Header: "Header 1",
@@ -34,6 +34,18 @@ func RenderFakeCalendar(w http.ResponseWriter, r *http.Request) {
 			},
 			&CalendarDay{
 				Header: "Header 2",
+				Fixtures: []*CalendarFixture{
+					&CalendarFixture{
+						Name:      "Fixture 1",
+						RelStart:  20,
+						RelHeight: 5,
+					},
+					&CalendarFixture{
+						Name:      "Fixture 2",
+						RelStart:  80,
+						RelHeight: 20,
+					},
+				},
 			},
 			&CalendarDay{
 				Header: "Header 3",
@@ -104,24 +116,10 @@ func calendarWeek(a data.Access, u models.User) *CalendarWeek {
 	if err != nil {
 		log.Print(err)
 		if err == models.ErrEmptyRelationship {
-			cal, err = calendar.New(a)
-			log.Printf("%+v", cal)
-			log.Println(cal.ID())
-			if err != nil {
-				return cw
-			}
-
-			if err = a.Save(cal); err != nil {
-				return cw
-			}
-
-			if err = u.SetCalendar(cal); err != nil {
-				return cw
-			}
-
-			if err = a.Save(u); err != nil {
-				return cw
-			}
+			cal, _ = calendar.Create(a)
+			u.SetCalendar(cal)
+			a.Save(u)
+			a.Save(cal)
 		} else {
 			return cw
 		}

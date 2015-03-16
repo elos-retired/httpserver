@@ -38,7 +38,3 @@ func RegisterHandle(s data.Store) httprouter.Handle {
 		templates.Render(w, r, templates.AccountCreated, u)
 	}
 }
-
-func CalendarHandle(w http.ResponseWriter, r *http.Request, p httprouter.Params, a data.Access) {
-	templates.RenderFakeCalendar(w, r)
-}

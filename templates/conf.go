@@ -30,15 +30,50 @@ const (
 	SignIn
 	Register
 	AccountCreated
-	Calendar
+
+	UserCalendar
+	UserEvents
+	UserTasks
+	UserRoutines
+	UserSchedules
+	UserSchedulesBase
+	UserSchedulesWeekly
+	UserSchedulesYearly
+	UserSchedulesWeekday
+	UserSchedulesYearday
 )
+
+var layoutTemplate string = "layout.tmpl"
+
+func Prepend(s string, v ...string) []string {
+	l := make([]string, len(v)+1)
+	l[0] = s
+	for i := range v {
+		l[i+1] = v[i]
+	}
+	return l
+}
+
+func Layout(v ...string) []string {
+	return Prepend(layoutTemplate, v...)
+}
 
 var templateSets = map[TemplateName][]string{
 	Index:          {"layout.tmpl", "index.html"},
 	SignIn:         {"layout.tmpl", "sessions.tmpl", "sign-in.tmpl"},
 	Register:       {"layout.tmpl", "sessions.tmpl", "register.tmpl"},
 	AccountCreated: {"layout.tmpl", "sessions.tmpl", "account-created.tmpl"},
-	Calendar:       {"layout.tmpl", "calendar.tmpl"},
+
+	UserCalendar:         Layout("user/calendar.tmpl"),
+	UserEvents:           Layout("user/events.tmpl"),
+	UserTasks:            Layout("user/tasks.tmpl"),
+	UserRoutines:         Layout("user/routines.tmpl"),
+	UserSchedules:        Layout("user/schedules.tmpl"),
+	UserSchedulesBase:    Layout("user/schedules/base.tmpl"),
+	UserSchedulesWeekly:  Layout("user/schedules/weekly.tmpl"),
+	UserSchedulesYearly:  Layout("user/schedules/yearly.tmpl"),
+	UserSchedulesWeekday: Layout("user/schedules/weekday.tmpl"),
+	UserSchedulesYearday: Layout("user/schedules/yearday.tmpl"),
 }
 
 var templates = map[TemplateName]*template.Template{}
