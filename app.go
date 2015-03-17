@@ -22,6 +22,10 @@ func UserAuth(f handles.AccessHandle, s data.Store) httprouter.Handle {
 	return handles.Auth(f, CookieAuth, s)
 }
 
+func UserTemplate(f handles.TemplateHandle, s data.Store) httprouter.Handle {
+	return UserAuth(handles.Template(f), s)
+}
+
 const (
 	UserBase             = "/user"
 	UserCalendar         = UserBase + "/calendar"
@@ -46,14 +50,14 @@ func setupRoutes(s *HTTPServer) {
 	s.GET("/register", templates.Show(templates.Register))
 	s.POST("/register", handles.RegisterHandle(s.Store))
 
-	s.GET(UserCalendar, UserAuth(handles.UserCalendar, store))
-	s.GET(UserEvents, UserAuth(handles.UserEvents, store))
-	s.GET(UserTasks, UserAuth(handles.UserTasks, store))
-	s.GET(UserRoutines, UserAuth(handles.UserRoutines, store))
-	s.GET(UserSchedules, UserAuth(handles.UserSchedules, store))
-	s.GET(UserSchedulesBase, UserAuth(handles.UserSchedulesBase, store))
-	s.GET(UserSchedulesWeekly, UserAuth(handles.UserSchedulesWeekly, store))
-	s.GET(UserSchedulesYearly, UserAuth(handles.UserSchedulesYearly, store))
+	s.GET(UserCalendar, UserTemplate(templates.RenderUserCalendar, store))
+	s.GET(UserEvents, UserTemplate(templates.RenderUserEvents, store))
+	s.GET(UserTasks, UserTemplate(templates.RenderUserTasks, store))
+	s.GET(UserRoutines, UserTemplate(templates.RenderUserRoutines, store))
+	s.GET(UserSchedules, UserTemplate(templates.RenderUserSchedules, store))
+	s.GET(UserSchedulesBase, UserTemplate(templates.RenderUserSchedulesBase, store))
+	s.GET(UserSchedulesWeekly, UserTemplate(templates.RenderUserSchedulesWeekly, store))
+	s.GET(UserSchedulesYearly, UserTemplate(templates.RenderUserSchedulesYearly, store))
 	s.GET(UserSchedulesWeekday, UserAuth(handles.UserSchedulesWeekday, store))
 	s.GET(UserSchedulesYearday, UserAuth(handles.UserSchedulesYearday, store))
 

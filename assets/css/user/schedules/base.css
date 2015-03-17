@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+}
+
+.element {
+    flex: 1;
+}
+
+.left {
+}
+
+.right {
+}
+
+.detail .title {
+    font-family: "Avenir Next UltraLight";
+    font-size: 1.5em;
+    text-decoration: underline;
+    width: 100%;
+    text-align: left;
+}
+
+.schedule {
+    display: flex;
+}
+
+.fixture {
+}

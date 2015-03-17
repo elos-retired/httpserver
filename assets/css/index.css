@@ -1,3 +1,9 @@
+/* Override */
+.layout-container {
+    margin-top: 0;
+}
+
+/* Override */
 .elos.layout {
     display: none;
 }
@@ -22,33 +28,16 @@ img {
     letter-spacing: 2px;
 }
 
-
 .elos.index {
     bottom: 10px;
 }
 
-.button {
-    color: #00FFA3;
-    background: none;
-    border: 1px #00FFA3 solid;
-    outline: none;
-    font-size: .85em;
-    padding: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
-
-.sign-in-button {
+.button.sign-in {
     width: 90px;
-    font-family: "Avenir Next Regular";
-    border-radius: 5px;
 }
 
-.register-button {
+.button.register {
     color: #FF005C;
     border: 1px #FF005C solid;
     width: 90px;
-    font-family: "Avenir Next Regular";
-    border-radius: 5px;
 }

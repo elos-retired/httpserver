@@ -24,3 +24,35 @@
 .center {
     width: 100%;
 }
+
+a.button {
+    color: #00FFA3;
+    background: none;
+    border: 1px #00FFA3 solid;
+    outline: none;
+    font-size: .85em;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: "Avenir Next Regular";
+}
+
+input[type="submit"] {
+    color: #00FFA3;
+    background: none;
+    border: 1px #00FFA3 solid;
+    outline: none;
+    font-size: .85em;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: "Avenir Next Regular";
+    border: 1px solid #979797;
+    border-radius: 8px;
+    color: black;
+    padding: 5px 20px;
+}

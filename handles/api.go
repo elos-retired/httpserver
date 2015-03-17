@@ -22,7 +22,7 @@ func Post(k data.Kind, params ParamsList) AccessHandle {
 			attrs[k] = r.FormValue(k)
 		}
 
-		c := transfer.NewHTTPConnection(w, r, access.Client())
+		c := transfer.NewHTTPConnection(w, r, access)
 		e := transfer.New(c, transfer.POST, k, attrs)
 		go transfer.Route(e, access)
 	}
@@ -36,7 +36,7 @@ func Get(k data.Kind, params ParamsList) AccessHandle {
 			attrs[k] = r.FormValue(k)
 		}
 
-		c := transfer.NewHTTPConnection(w, r, access.Client())
+		c := transfer.NewHTTPConnection(w, r, access)
 		e := transfer.New(c, transfer.GET, k, attrs)
 		go transfer.Route(e, access)
 	}

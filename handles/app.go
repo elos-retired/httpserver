@@ -35,6 +35,6 @@ func RegisterHandle(s data.Store) httprouter.Handle {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		templates.Render(w, r, templates.AccountCreated, u)
+		templates.Render(transfer.NewHTTPConnection(w, r, nil), templates.AccountCreated, u)
 	}
 }

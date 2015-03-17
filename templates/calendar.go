@@ -8,14 +8,15 @@ import (
 	"github.com/elos/data"
 	"github.com/elos/models"
 	"github.com/elos/models/calendar"
+	"github.com/elos/transfer"
 )
 
-func RenderCalendar(w http.ResponseWriter, r *http.Request, a data.Access, u models.User) {
-	renderTemplate(w, r, UserCalendar, calendarWeek(a, u))
+func RenderCalendar(c *transfer.HTTPConnection) {
+	renderTemplate(c, UserCalendar, calendarWeek(c.Access, c.Client().(models.User)))
 }
 
 func RenderFakeCalendar(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, r, UserCalendar, &CalendarWeek{
+	renderTemplate(transfer.NewHTTPConnection(w, r, nil), UserCalendar, &CalendarWeek{
 		Days: []*CalendarDay{
 			&CalendarDay{
 				Header: "Header 1",
