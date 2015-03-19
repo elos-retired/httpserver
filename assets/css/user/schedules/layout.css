@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.element {
+    flex: 1;
+    max-width:25%;
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.detail {
+    margin-right:5%;
+}
+
+.detail .title {
+    font-family: "Avenir Next UltraLight";
+    font-size: 1.2em;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid black;
+    max-height: 1.4em;
+}
+
+.schedule {
+    height: 550px;
+    width: 100%;
+    background: gray;
+    display: flex;
+}
+
+.schedule element {
+    flex: 1;
+}
+
+.element form {
+    margin-top: 10px;
+}
+
+
+.fixture {
+}
+
+.fixture-view {
+    width:100%;
+}
+
+.buttons {
+    width: 100%;
+}

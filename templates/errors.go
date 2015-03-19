@@ -20,7 +20,7 @@ type (
 	}
 )
 
-func NewNotFoundError(n TemplateName) *NotFoundError {
+func NewNotFoundError(n Name) *NotFoundError {
 	e := NotFoundError(n)
 	return &e
 }
@@ -60,6 +60,10 @@ const (
 )
 
 func CatchError(c *transfer.HTTPConnection, err error) {
+	if err == nil {
+		return
+	}
+
 	switch err.(type) {
 	case *NotFoundError:
 		c.ResponseWriter().Write([]byte(NotFoundErrorResponseString))

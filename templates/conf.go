@@ -23,10 +23,10 @@ var (
 	CSSDir         = filepath.Join(AssetsDir, "css")
 )
 
-type TemplateName int
+type Name int
 
 const (
-	Index TemplateName = iota
+	Index Name = iota
 	SignIn
 	Register
 	AccountCreated
@@ -58,7 +58,7 @@ func Layout(v ...string) []string {
 	return Prepend(layoutTemplate, v...)
 }
 
-var templateSets = map[TemplateName][]string{
+var templateSets = map[Name][]string{
 	Index:          {"layout.tmpl", "index.html"},
 	SignIn:         {"layout.tmpl", "sessions.tmpl", "sign-in.tmpl"},
 	Register:       {"layout.tmpl", "sessions.tmpl", "register.tmpl"},
@@ -69,14 +69,14 @@ var templateSets = map[TemplateName][]string{
 	UserTasks:            Layout("user/tasks.tmpl"),
 	UserRoutines:         Layout("user/routines.tmpl"),
 	UserSchedules:        Layout("user/schedules.tmpl"),
-	UserSchedulesBase:    Layout("user/schedules/base.tmpl"),
+	UserSchedulesBase:    Layout("user/schedules/layout.tmpl", "user/schedules/base.tmpl"),
 	UserSchedulesWeekly:  Layout("user/schedules/weekly.tmpl"),
 	UserSchedulesYearly:  Layout("user/schedules/yearly.tmpl"),
 	UserSchedulesWeekday: Layout("user/schedules/weekday.tmpl"),
 	UserSchedulesYearday: Layout("user/schedules/yearday.tmpl"),
 }
 
-var templates = map[TemplateName]*template.Template{}
+var templates = map[Name]*template.Template{}
 
 func init() {
 	if err := parseHTMLTemplates(templateSets); err != nil {
@@ -92,7 +92,7 @@ func joinDir(base string, files []string) []string {
 	return r
 }
 
-func parseHTMLTemplates(sets map[TemplateName][]string) error {
+func parseHTMLTemplates(sets map[Name][]string) error {
 	for name, set := range sets {
 		t, err := template.ParseFiles(joinDir(TemplatesDir, set)...)
 		if err != nil {

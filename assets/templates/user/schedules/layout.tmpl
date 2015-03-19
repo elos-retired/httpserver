@@ -1,0 +1,34 @@
+{{define "Head"}}
+    <link rel="stylesheet" type="text/css" href="/css/user/schedules/layout.css">
+    {{template "Style" $}}
+    <title>{{template "Title" $}}</title>
+{{end}}
+
+{{define "Body"}}
+<div class="container">
+    <div class="element detail">
+        <h2 class="title">{{template "Title" $}}</h2>
+        <div class="fixture-view">
+            {{template "FixtureView" $}}
+        </div>
+        <div class="buttons">
+            {{template "Buttons" $}}
+         </div>
+    </div>
+
+    <div class="element">
+        <div class="schedule">
+            {{printf "%+v" .}}
+                {{range .Fixtures}}
+                    <div class="fixture"
+                    style="position: relative; top:{{ .RelStart }}%; height:{{.RelHeight}}%; width: 100%;">
+                    {{.Name}}
+                    </div>
+                {{end}}
+        </div>
+        <form class="add-fixture-button" action="/user/schedules/base/new_fixture" method="POST">
+            <input type="submit" value="Add Fixture">
+        </form>
+    </div>
+</div>
+{{end}}

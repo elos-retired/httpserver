@@ -38,6 +38,8 @@ const (
 	UserSchedulesYearly  = UserSchedules + "/yearly"
 	UserSchedulesWeekday = UserSchedulesWeekly + "/:weekday"
 	UserSchedulesYearday = UserSchedulesYearly + "/:yearday"
+
+	UserSchedulesBaseAddFixture = UserSchedulesBase + "/add_fixture"
 )
 
 func setupRoutes(s *HTTPServer) {
@@ -46,7 +48,7 @@ func setupRoutes(s *HTTPServer) {
 	s.GET("/", templates.Show(templates.Index))
 
 	s.GET("/sign-in", templates.Show(templates.SignIn))
-	s.POST("/sign-in", handles.Auth(handles.SignIn(sessionsStore), t.Auth(t.FormCredentialer), s.Store))
+	s.POST("/sign-in", handles.Auth(handles.SignIn(sessionsStore, UserCalendar), t.Auth(t.FormCredentialer), s.Store))
 	s.GET("/register", templates.Show(templates.Register))
 	s.POST("/register", handles.RegisterHandle(s.Store))
 
@@ -58,6 +60,7 @@ func setupRoutes(s *HTTPServer) {
 	s.GET(UserSchedulesBase, UserTemplate(templates.RenderUserSchedulesBase, store))
 	s.GET(UserSchedulesWeekly, UserTemplate(templates.RenderUserSchedulesWeekly, store))
 	s.GET(UserSchedulesYearly, UserTemplate(templates.RenderUserSchedulesYearly, store))
+
 	s.GET(UserSchedulesWeekday, UserAuth(handles.UserSchedulesWeekday, store))
 	s.GET(UserSchedulesYearday, UserAuth(handles.UserSchedulesYearday, store))
 

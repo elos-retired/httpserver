@@ -13,7 +13,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func SignIn(s sessions.Store) AccessHandle {
+func SignIn(s sessions.Store, redirect string) AccessHandle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params, a data.Access) {
 		session, _ := s.Get(r, transfer.AuthSession)
 
@@ -23,7 +23,7 @@ func SignIn(s sessions.Store) AccessHandle {
 		if err != nil {
 			http.Error(w, err.Error(), 500)
 		} else {
-			http.Redirect(w, r, "/calendar", http.StatusFound)
+			http.Redirect(w, r, redirect, http.StatusFound)
 		}
 	}
 }

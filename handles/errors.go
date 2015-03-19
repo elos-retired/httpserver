@@ -38,6 +38,10 @@ func (b *BadParamError) Error() string {
 }
 
 func CatchError(c *transfer.HTTPConnection, err error) {
+	if err == nil {
+		return
+	}
+
 	switch err.(type) {
 	case *MissingParamError:
 		http.Error(c.ResponseWriter(), err.Error(), 500)

@@ -1,27 +1,9 @@
-{{define "Head"}}
+{{define "Style"}}
     <link rel="stylesheet" type="text/css" href="/css/user/schedules/base.css">
-    <title> User Schedules Base </title>
 {{end}}
 
-{{define "Body"}}
-<div class="container">
-    <div class="element left detail">
-        <h2 class="title">
-    </div>
+{{define "Title"}} Base Schedule {{end}}
 
-    <div class="element right">
-        <div class="schedule">
-{{printf "%+v" .}}
-                {{range .Fixtures}}
-                    <div class="fixture"
-                    style="position: relative; top:{{ .RelStart }}%; height:{{.RelHeight}}%; width: 100%;">
-                    {{.Name}}
-                    </div>
-                {{end}}
-        </div>
-        <form action="/user/schedules/base/new_fixture" method="POST">
-            <input type="submit" value="Add Fixture">
-        </form>
-    </div>
-</div>
-{{end}}
+{{define "FixtureView"}} Your base schedule has {{len .Fixtures }} fixtures. {{end}}
+
+{{define "Buttons"}} {{end}}
