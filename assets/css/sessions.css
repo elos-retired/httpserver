@@ -91,3 +91,7 @@ a {
     color: #00FFA3;
     text-decoration: none;
 }
+
+#body {
+    align-items: center;
+}

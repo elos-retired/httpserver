@@ -16,6 +16,10 @@ body {
     height:100%;
 }
 
+#header {
+    justify-content: space-between;
+}
+
 .per-aspera {
     margin-top: 35%;
     width: 100%;
