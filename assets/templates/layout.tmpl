@@ -7,9 +7,17 @@
         {{template "Head" $}}
     </head>
     <body>
-        <h1 class="elos layout center top">elos</h1>
-        <div class="layout-container">
-        {{template "Body" $}}
+        <div id="root">
+            <div id="header">
+                <h1 class="elos layout">elos</h1>
+                {{template "Header" $}}
+            </div>
+            <div id="body">
+                {{template "Body" $}}
+            </div>
+            <div id="footer">
+                {{template "Footer" $}}
+            </div>
         </div>
     </body>
 </html>

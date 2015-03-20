@@ -1,8 +1,11 @@
 {{define "Head"}} <link rel="stylesheet" type="text/css" href="/css/index.css"> {{end}}
+{{define "Header"}}
+        <a href="/register" class="button register">Register</a>
+        <a href="/sign-in" class="button sign-in">Sign In</a>
+{{end}}
 {{define "Body"}}
-        <img src="/img/sail.jpeg" alt="sail">
-        <a href="/register" class="button register top left">Register</a>
-        <a href="/sign-in" class="button sign-in top right">Sign In</a>
         <h1 class="per-aspera">PER ASPERA</h1>
-        <h2 class="bottom right elos index">elos</h2>
+{{end}}
+{{define "Footer"}}
+        <h2 class="elos index">elos</h2>
 {{end}}

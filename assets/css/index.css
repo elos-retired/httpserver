@@ -1,9 +1,4 @@
 /* Override */
-.layout-container {
-    margin-top: 0;
-}
-
-/* Override */
 .elos.layout {
     display: none;
 }
@@ -13,15 +8,17 @@ body {
     margin: 0;
 }
 
-img {
-    width: 100%;
-    height: 100%;
+#root {
+    background: url("/img/sail.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width:100%;
+    height:100%;
 }
 
 .per-aspera {
+    margin-top: 35%;
     width: 100%;
-    position: absolute;
-    top: 70%;
     text-align: center;
     color: white;
     font-family: "Avenir Next Regular";
@@ -29,15 +26,21 @@ img {
 }
 
 .elos.index {
-    bottom: 10px;
+    text-align: right;
+    margin-right: 10px;
+    width: 100%;
+}
+
+a.button {
+    width: 90px;
 }
 
 .button.sign-in {
-    width: 90px;
+    margin: 15px 10px 0 0;
 }
 
 .button.register {
+    margin: 15px 0 0 10px;
     color: #FF005C;
     border: 1px #FF005C solid;
-    width: 90px;
 }

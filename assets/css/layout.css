@@ -8,6 +8,41 @@
     text-align: center;
 }
 
-.layout-container {
-    margin-top: 4em;
+#root {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   width:100%;
+   position:absolute;
+   top:0;
+   bottom:0;
+}
+
+#header {
+    width: 100%;
+    align-self: flex-start;
+    flex: 1;
+}
+
+#body {
+    width: 100%;
+    flex: 1;
+    min-height: 90%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer {
+    width: 100%;
+    align-self: flex-end;
+    flex: 1;
+}
+
+#header, #footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
