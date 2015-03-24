@@ -1,6 +1,7 @@
 package templates
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -73,6 +74,7 @@ type CalendarDay struct {
 
 type CalendarFixture struct {
 	Name      string
+	Time      string
 	RelStart  float32
 	RelHeight float32
 }
@@ -89,13 +91,34 @@ func calHeader(t time.Time) string {
 
 }
 
+func hourString(t time.Time) string {
+	var suffix string
+	if t.Hour() <= 12 {
+		suffix = "AM"
+	} else {
+		suffix = "PM"
+	}
+
+	var extraZero string
+	if t.Minute()%60 < 10 {
+		extraZero = "0"
+	}
+
+	return fmt.Sprintf("%d:%s%d %s", t.Hour()%12, extraZero, t.Minute()%60, suffix)
+}
+
+func timeString(f models.Fixture) string {
+	return fmt.Sprintf("%s - %s", hourString(f.StartTime()), hourString(f.EndTime()))
+}
+
 func calendarFixture(f models.Fixture) *CalendarFixture {
 	startM := f.StartTime().Hour()*60 + f.StartTime().Minute()
 	endM := f.EndTime().Hour()*60 + f.EndTime().Minute()
 	return &CalendarFixture{
 		Name:      f.Name(),
-		RelStart:  float32(startM) / 1440,
-		RelHeight: float32(startM+endM) / 1440,
+		Time:      timeString(f),
+		RelStart:  float32(startM) / 1440 * 100,
+		RelHeight: float32(endM-startM) / 1440 * 100,
 	}
 }
 

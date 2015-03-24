@@ -41,6 +41,7 @@ const (
 	UserSchedulesYearly
 	UserSchedulesWeekday
 	UserSchedulesYearday
+	UserSchedulesBaseAddFixture
 )
 
 var layoutTemplate string = "layout.tmpl"
@@ -74,6 +75,8 @@ var templateSets = map[Name][]string{
 	UserSchedulesYearly:  Layout("user/schedules/yearly.tmpl"),
 	UserSchedulesWeekday: Layout("user/schedules/weekday.tmpl"),
 	UserSchedulesYearday: Layout("user/schedules/yearday.tmpl"),
+
+	UserSchedulesBaseAddFixture: Layout("user/schedules/layout.tmpl", "user/schedules/base-add.tmpl"),
 }
 
 var templates = map[Name]*template.Template{}

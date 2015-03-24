@@ -1,0 +1,52 @@
+{{define "Style"}}
+{{end}}
+
+{{define "Title"}} Base Schedule: Adding Fixture {{end}}
+
+{{define "FixtureView"}}
+<form action="/user/schedules/base/add_fixture" method="POST">
+    <table width="100%;">
+        <tr>
+            <td class="label"> Name: </td>
+            <td>
+                <input type="text" name="name" id="name" value="">
+            </td>
+        </tr>
+        <tr>
+            <td class="label"> Start Time: </td>
+            <td>
+                <input type="time" name="start_time" id="start_time">
+            </td>
+        </tr>
+        <tr>
+            <td class="label"> End Time: </td>
+            <td>
+                <input type="time" name="end_time" id="end_time">
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td class="label"> All Day? </td>
+            <td>
+                <input type="checkbox" name="label" id="label" value="true" onclick="switchLabel()">
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <input type="submit" value="Submit">
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        var label = false;
+        function switchLabel() {
+            document.getElementById("start_time").disabled = !label;
+            document.getElementById("end_time").disabled = !label;
+            label = !label;
+        }
+    </script>
+</form>
+{{end}}
+
+{{define "Buttons"}} {{end}}

@@ -25,10 +25,28 @@
     max-height: 1.4em;
 }
 
-.schedule {
+.schedule-container {
     height: 550px;
     width: 100%;
-    background: gray;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border: 1px solid gray;
+}
+
+.schedule-container::-webkit-scrollbar {
+    display: none;
+}
+
+.schedule {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: -15px;
+    height: 200%;
+
+    background: #F7F7F7;
     display: flex;
 }
 
@@ -41,7 +59,24 @@
 }
 
 
-.fixture {
+div.fixture {
+    background: #DADADA;
+    border: 1px solid #00FFA3;
+}
+
+div.name, div.time {
+    position: absolute;
+    top: 5px;
+    font-family: "Avenir Next Regular";
+    font-size: .8em;
+}
+
+div.name {
+    left: 5px;
+}
+
+div.time  {
+    right: 5px;
 }
 
 .fixture-view {
@@ -50,4 +85,18 @@
 
 .buttons {
     width: 100%;
+}
+
+input[type="text"], input[type="time"] {
+    width: 100%;
+    font-family: "Avenir Next Regular";
+    color: gray;
+}
+
+input[type="checkbox"] {
+    margin: 8px;
+}
+
+input[type="time"]:disabled {
+    opacity: 0.3;
 }

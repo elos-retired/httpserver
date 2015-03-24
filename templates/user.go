@@ -29,6 +29,15 @@ func RenderUserSchedules(c *transfer.HTTPConnection) error {
 }
 
 func RenderUserSchedulesBase(c *transfer.HTTPConnection) error {
+	sv, err := userSchedulesBaseView(c)
+	if err != nil {
+		return err
+	}
+
+	return Render(c, UserSchedulesBase, sv)
+}
+
+func userSchedulesBaseView(c *transfer.HTTPConnection) (*ScheduleView, error) {
 	u := c.Client().(models.User)
 	a := c.Access
 
@@ -36,10 +45,10 @@ func RenderUserSchedulesBase(c *transfer.HTTPConnection) error {
 	if err != nil {
 		if err == models.ErrEmptyRelationship {
 			if err = user.NewCalendar(a, u); err != nil {
-				return NewServerError(err)
+				return nil, NewServerError(err)
 			}
 		} else {
-			return NewServerError(err)
+			return nil, NewServerError(err)
 		}
 	}
 
@@ -47,21 +56,30 @@ func RenderUserSchedulesBase(c *transfer.HTTPConnection) error {
 	if err != nil {
 		if err == models.ErrEmptyRelationship {
 			if err = calendar.NewBaseSchedule(a, cal); err != nil {
-				return NewServerError(err)
+				return nil, NewServerError(err)
 			}
 		} else {
-			return NewServerError(err)
+			return nil, NewServerError(err)
 		}
 	}
 
 	fixtures, err := sch.Fixtures(a)
 	if err != nil {
-		return NewServerError(err)
+		return nil, NewServerError(err)
 	}
 
-	return Render(c, UserSchedulesBase, &ScheduleView{
+	return &ScheduleView{
 		Fixtures: viewFixtures(fixtures),
-	})
+	}, nil
+}
+
+func RenderUserSchedulesBaseAddFixture(c *transfer.HTTPConnection) error {
+	sv, err := userSchedulesBaseView(c)
+	if err != nil {
+		return err
+	}
+
+	return Render(c, UserSchedulesBaseAddFixture, sv)
 }
 
 func RenderUserSchedulesWeekly(c *transfer.HTTPConnection) error {

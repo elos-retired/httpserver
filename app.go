@@ -61,6 +61,9 @@ func setupRoutes(s *HTTPServer) {
 	s.GET(UserSchedulesWeekly, UserTemplate(templates.RenderUserSchedulesWeekly, store))
 	s.GET(UserSchedulesYearly, UserTemplate(templates.RenderUserSchedulesYearly, store))
 
+	s.GET(UserSchedulesBaseAddFixture, UserTemplate(templates.RenderUserSchedulesBaseAddFixture, store))
+	s.POST(UserSchedulesBaseAddFixture, UserAuth(handles.UserSchedulesBaseAddFixture, store))
+
 	s.GET(UserSchedulesWeekday, UserAuth(handles.UserSchedulesWeekday, store))
 	s.GET(UserSchedulesYearday, UserAuth(handles.UserSchedulesYearday, store))
 

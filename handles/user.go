@@ -3,9 +3,12 @@ package handles
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/elos/data"
 	"github.com/elos/httpserver/templates"
+	"github.com/elos/models"
+	"github.com/elos/models/fixture"
 	"github.com/elos/transfer"
 	"github.com/julienschmidt/httprouter"
 )
@@ -40,7 +43,7 @@ func userSchedulesWeekday(c *transfer.HTTPConnection, p httprouter.Params) error
 
 func UserSchedulesYearday(w http.ResponseWriter, r *http.Request, p httprouter.Params, a data.Access) {
 	c := transfer.NewHTTPConnection(w, r, a)
-	userSchedulesYearday(c, p)
+	CatchError(c, userSchedulesYearday(c, p))
 }
 
 func userSchedulesYearday(c *transfer.HTTPConnection, p httprouter.Params) error {
@@ -55,4 +58,82 @@ func userSchedulesYearday(c *transfer.HTTPConnection, p httprouter.Params) error
 
 	templates.CatchError(c, templates.RenderUserSchedulesYearday(c, yearday))
 	return nil
+}
+
+func UserSchedulesBaseAddFixture(w http.ResponseWriter, r *http.Request, p httprouter.Params, a data.Access) {
+	c := transfer.NewHTTPConnection(w, r, a)
+	CatchError(c, userSchedulesBaseAddFixture(c, a))
+}
+
+func userSchedulesBaseAddFixture(c *transfer.HTTPConnection, a data.Access) error {
+	r := c.Request()
+
+	params, err := getVals(r, "name", "start_time", "end_time")
+	if err != nil {
+		return err
+	}
+
+	/*
+		label, err := strconv.ParseBool(params["label"])
+		if err != nil {
+			return NewBadParamError("label", err.Error())
+		}
+	*/
+
+	formTime := "15:04"
+
+	start_time, err := time.Parse(formTime, params["start_time"])
+	if err != nil {
+		return NewBadParamError("start_time", err.Error())
+	}
+	end_time, err := time.Parse(formTime, params["end_time"])
+	if err != nil {
+		return NewBadParamError("end_time", err.Error())
+	}
+
+	cal, err := c.Client().(models.User).Calendar(a)
+	if err != nil {
+		return err
+	}
+
+	s, err := cal.BaseSchedule(a)
+	if err != nil {
+		return err
+	}
+
+	f, err := fixture.New(a)
+	if err != nil {
+		return err
+	}
+
+	f.SetName(params["name"])
+	f.SetStartTime(start_time)
+	f.SetEndTime(end_time)
+	// f.SetLabel(label)
+
+	if err = a.Save(f); err != nil {
+		return err
+	}
+
+	s.IncludeFixture(f)
+
+	a.Save(f)
+	a.Save(s)
+
+	http.Redirect(c.ResponseWriter(), c.Request(), "/user/schedules/base", 201)
+	return nil
+}
+
+func getVals(r *http.Request, v ...string) (map[string]string, error) {
+	params := make(map[string]string)
+
+	for _, v := range v {
+		s := r.FormValue(v)
+		if s == "" {
+			return nil, NewMissingParamError(v)
+		}
+		params[v] = s
+	}
+
+	return params, nil
 }

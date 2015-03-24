@@ -18,19 +18,24 @@
 </div>
 
 <div class="element">
-    <div class="schedule">
-        {{printf "%+v" .}}
+    <div class="schedule-container">
+        <div class="schedule">
             {{range .Fixtures}}
-                <div class="fixture"
-                style="position: relative; top:{{ .RelStart }}%; height:{{.RelHeight}}%; width: 100%;">
-                {{.Name}}
-                </div>
+                {{template "Fixture" .}}
             {{end}}
+        </div>
     </div>
-    <form class="add-fixture-button" action="/user/schedules/base/new_fixture" method="POST">
+    <form class="add-fixture-button" action="/user/schedules/base/add_fixture" method="GET">
         <input type="submit" value="Add Fixture">
     </form>
 </div>
 {{end}}
 
 {{define "Footer"}} {{end}}
+
+{{define "Fixture"}}
+    <div class="fixture" style="position: absolute; top:{{ .RelStart }}%; height:{{.RelHeight}}%; width: 100%;">
+        <div class="name"> {{.Name}} </div>
+        <div class="time"> {{.Time}} </div>
+    </div>
+{{end}}

@@ -39,6 +39,7 @@ func Auth(h AccessHandle, auther transfer.Authenticator, s data.Store) httproute
 		client, authenticated, err := auther(s, r)
 		if err != nil {
 			log.Printf("An error occurred during authentication, err: %s", err)
+			log.Printf("%+v", r)
 			Error(err)(w, r, ps)
 			return
 		}
