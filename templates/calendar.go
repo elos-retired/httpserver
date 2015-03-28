@@ -150,7 +150,7 @@ func calendarWeek(a data.Access, u models.User) *CalendarWeek {
 	}
 	now := time.Now()
 	for i := 0; i < 5; i++ {
-		sched, err := cal.ScheduleForDay(a, now)
+		sched, err := cal.YeardaySchedule(a, now)
 		if err != nil {
 			return cw
 		}

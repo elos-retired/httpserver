@@ -65,6 +65,8 @@ func UserSchedulesBaseAddFixture(w http.ResponseWriter, r *http.Request, p httpr
 	CatchError(c, userSchedulesBaseAddFixture(c, a))
 }
 
+var formTimeLayout = "15:04"
+
 func userSchedulesBaseAddFixture(c *transfer.HTTPConnection, a data.Access) error {
 	r := c.Request()
 
@@ -80,13 +82,11 @@ func userSchedulesBaseAddFixture(c *transfer.HTTPConnection, a data.Access) erro
 		}
 	*/
 
-	formTime := "15:04"
-
-	start_time, err := time.Parse(formTime, params["start_time"])
+	start_time, err := time.Parse(formTimeLayout, params["start_time"])
 	if err != nil {
 		return NewBadParamError("start_time", err.Error())
 	}
-	end_time, err := time.Parse(formTime, params["end_time"])
+	end_time, err := time.Parse(formTimeLayout, params["end_time"])
 	if err != nil {
 		return NewBadParamError("end_time", err.Error())
 	}
@@ -120,7 +120,7 @@ func userSchedulesBaseAddFixture(c *transfer.HTTPConnection, a data.Access) erro
 	a.Save(f)
 	a.Save(s)
 
-	http.Redirect(c.ResponseWriter(), c.Request(), "/user/schedules/base", 201)
+	http.Redirect(c.ResponseWriter(), c.Request(), "/user/schedules/base", http.StatusFound)
 	return nil
 }
 
