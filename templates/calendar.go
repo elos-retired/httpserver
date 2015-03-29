@@ -93,7 +93,8 @@ func calHeader(t time.Time) string {
 
 func hourString(t time.Time) string {
 	var suffix string
-	if t.Hour() <= 12 {
+	hour := t.Hour() + 1
+	if hour <= 12 {
 		suffix = "AM"
 	} else {
 		suffix = "PM"

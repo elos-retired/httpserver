@@ -3,6 +3,7 @@ package httpserver
 import (
 	"bytes"
 	"io"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -111,7 +112,10 @@ func TestSignInPost(t *testing.T) {
 	go s.Start()
 	s.WaitStart()
 
+	log.Print("here")
 	resp, err := client.PostForm("http://localhost:8001/sign-in", url.Values{"id": {u.ID().(bson.ObjectId).Hex()}, "key": {u.Key()}})
+	log.Print("here 1")
+	log.Print(client.Jar)
 
 	if err != nil {
 		t.Fatal(err)
@@ -123,24 +127,24 @@ func TestSignInPost(t *testing.T) {
 		t.Log(buf.String())
 		t.Errorf("expect redirect")
 	}
-
-	resp, err = client.Get("http://localhost:8001/sign-in")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if resp.StatusCode != 200 {
-		t.Errorf("expect success")
-	}
-
-	go s.Stop()
-	s.WaitStop()
-
 	/*
-		req = newRequest("GET", "/user/calendar", nil, t)
-		w = httptest.NewRecorder()
 
-		server.ServeHTTP(w, req)
-		expectSuccess(w, t)
+		resp, err = client.Get("http://localhost:8001/sign-in")
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if resp.StatusCode != 200 {
+			t.Errorf("expect success")
+		}
+
+		go s.Stop()
+		s.WaitStop()
+
+			req = newRequest("GET", "/user/calendar", nil, t)
+			w = httptest.NewRecorder()
+
+			server.ServeHTTP(w, req)
+			expectSuccess(w, t)
 	*/
 }

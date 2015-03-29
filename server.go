@@ -7,7 +7,6 @@ import (
 
 	"github.com/elos/autonomous"
 	"github.com/elos/data"
-	"github.com/elos/stack/util/logging"
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
 )
@@ -60,5 +59,12 @@ func (a *HTTPServer) Listen() {
 
 	log.Printf("Serving at http://%s", serving_url)
 
-	log.Fatal(http.ListenAndServe(serving_url, context.ClearHandler(logging.LogRequest(a.Router))))
+	log.Fatal(http.ListenAndServe(serving_url, context.ClearHandler(LogRequest(a.Router))))
+}
+
+func LogRequest(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
+		handler.ServeHTTP(w, r)
+	})
 }
