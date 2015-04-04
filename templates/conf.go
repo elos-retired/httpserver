@@ -59,11 +59,18 @@ func Layout(v ...string) []string {
 	return Prepend(layoutTemplate, v...)
 }
 
+var sessionsLayoutTemplate string = "sessions/layout.tmpl"
+
+func Sessions(v ...string) []string {
+	return Layout(Prepend(sessionsLayoutTemplate, v...)...)
+}
+
 var templateSets = map[Name][]string{
-	Index:          {"layout.tmpl", "index.html"},
-	SignIn:         {"layout.tmpl", "sessions.tmpl", "sign-in.tmpl"},
-	Register:       {"layout.tmpl", "sessions.tmpl", "register.tmpl"},
-	AccountCreated: {"layout.tmpl", "sessions.tmpl", "account-created.tmpl"},
+	Index: Layout("index.html"),
+
+	SignIn:         Sessions("sessions/sign-in.tmpl"),
+	Register:       Sessions("sessions/register.tmpl"),
+	AccountCreated: Sessions("sessions/account-created.tmpl"),
 
 	UserCalendar:         Layout("user/calendar.tmpl"),
 	UserEvents:           Layout("user/events.tmpl"),

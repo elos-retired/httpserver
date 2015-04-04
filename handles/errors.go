@@ -50,5 +50,6 @@ func CatchError(c *transfer.HTTPConnection, err error) {
 	default:
 		http.Error(c.ResponseWriter(), err.Error(), 500)
 	}
+
 	log.Printf("Handles caught error %s", err)
 }

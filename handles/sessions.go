@@ -16,7 +16,6 @@ import (
 func SignIn(s sessions.Store, redirect string) AccessHandle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params, a data.Access) {
 		session, _ := s.Get(r, transfer.AuthSession)
-
 		session.Values[transfer.ID] = a.Client().ID().(bson.ObjectId).Hex()
 		session.Values[transfer.Key] = a.Client().(models.User).Key()
 		err := session.Save(r, w)
@@ -31,10 +30,12 @@ func SignIn(s sessions.Store, redirect string) AccessHandle {
 func RegisterHandle(s data.Store) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		u, err := user.NewWithName(s, r.FormValue("name"))
+
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		templates.Render(transfer.NewHTTPConnection(w, r, nil), templates.AccountCreated, u)
 	}
 }

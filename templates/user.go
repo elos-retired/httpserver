@@ -1,6 +1,7 @@
 package templates
 
 import (
+	"github.com/elos/httpserver/views"
 	"github.com/elos/models"
 	"github.com/elos/models/calendar"
 	"github.com/elos/models/user"
@@ -98,11 +99,11 @@ func RenderUserSchedulesYearday(c *transfer.HTTPConnection, yearday int) error {
 	return Render(c, UserSchedulesYearday, c.Client().(models.User))
 }
 
-func viewFixtures(fs []models.Fixture) []*CalendarFixture {
-	calfs := make([]*CalendarFixture, len(fs))
+func viewFixtures(fs []models.Fixture) []*views.CalendarFixture {
+	calfs := make([]*views.CalendarFixture, len(fs))
 
 	for i := range fs {
-		calfs[i] = calendarFixture(fs[i])
+		calfs[i] = views.MakeCalendarFixture(fs[i])
 	}
 
 	return calfs
@@ -110,5 +111,5 @@ func viewFixtures(fs []models.Fixture) []*CalendarFixture {
 
 type ScheduleView struct {
 	SelectedFixture models.Fixture
-	Fixtures        []*CalendarFixture
+	Fixtures        []*views.CalendarFixture
 }
