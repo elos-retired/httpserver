@@ -63,9 +63,9 @@ var (
 
 	Prepend is useful for constructing templateSets
 	i.e.,
-	func Root(v ...string) []string {
-		return Prepend("root.tmpl", v...)
-	}
+		func Root(v ...string) []string {
+			return Prepend("root.tmpl", v...)
+		}
 */
 func Prepend(s string, v ...string) []string {
 	l := make([]string, len(v)+1)
