@@ -24,6 +24,11 @@ type (
 		RelStart  float32
 		RelHeight float32
 	}
+
+	Schedule struct {
+		SelectedFixture models.Fixture
+		Fixtures        []*CalendarFixture
+	}
 )
 
 const (
@@ -90,6 +95,16 @@ func MakeCalendarFixture(f models.Fixture) *CalendarFixture {
 	}
 }
 
+func MakeCalendarFixtures(fs []models.Fixture) []*CalendarFixture {
+	calfs := make([]*CalendarFixture, len(fs))
+
+	for i := range fs {
+		calfs[i] = MakeCalendarFixture(fs[i])
+	}
+
+	return calfs
+}
+
 func MakeCalendarDay(a data.Access, s models.Schedule) (*CalendarDay, error) {
 	cd := new(CalendarDay)
 	cd.Header = CalendarHeader(s.StartTime())
@@ -131,6 +146,7 @@ func MakeCalendarWeek(a data.Access, cal models.Calendar) (*CalendarWeek, error)
 }
 
 /*
+this code was for creating the calendar if a user didn't already have one
 	cal, err := u.Calendar(a)
 	if err != nil {
 		if err == models.ErrEmptyRelationship {
@@ -143,3 +159,14 @@ func MakeCalendarWeek(a data.Access, cal models.Calendar) (*CalendarWeek, error)
 		}
 	}
 */
+
+func MakeSchedule(a data.Access, sched models.Schedule) (*Schedule, error) {
+	fixtures, err := sched.Fixtures(a)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Schedule{
+		Fixtures: MakeCalendarFixtures(fixtures),
+	}, nil
+}

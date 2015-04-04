@@ -38,7 +38,7 @@ func RenderUserSchedulesBase(c *transfer.HTTPConnection) error {
 	return Render(c, UserSchedulesBase, sv)
 }
 
-func userSchedulesBaseView(c *transfer.HTTPConnection) (*ScheduleView, error) {
+func userSchedulesBaseView(c *transfer.HTTPConnection) (*views.Schedule, error) {
 	u := c.Client().(models.User)
 	a := c.Access
 
@@ -64,14 +64,7 @@ func userSchedulesBaseView(c *transfer.HTTPConnection) (*ScheduleView, error) {
 		}
 	}
 
-	fixtures, err := sch.Fixtures(a)
-	if err != nil {
-		return nil, NewServerError(err)
-	}
-
-	return &ScheduleView{
-		Fixtures: viewFixtures(fixtures),
-	}, nil
+	return views.MakeSchedule(a, sch)
 }
 
 func RenderUserSchedulesBaseAddFixture(c *transfer.HTTPConnection) error {
@@ -97,19 +90,4 @@ func RenderUserSchedulesWeekday(c *transfer.HTTPConnection, weekday int) error {
 
 func RenderUserSchedulesYearday(c *transfer.HTTPConnection, yearday int) error {
 	return Render(c, UserSchedulesYearday, c.Client().(models.User))
-}
-
-func viewFixtures(fs []models.Fixture) []*views.CalendarFixture {
-	calfs := make([]*views.CalendarFixture, len(fs))
-
-	for i := range fs {
-		calfs[i] = views.MakeCalendarFixture(fs[i])
-	}
-
-	return calfs
-}
-
-type ScheduleView struct {
-	SelectedFixture models.Fixture
-	Fixtures        []*views.CalendarFixture
 }

@@ -217,3 +217,27 @@ func TestMakeCalendarWeek(t *testing.T) {
 	//	s := persistence.Store(persistence.MongoMemoryDB())
 
 }
+
+func TestMakeSchedule(t *testing.T) {
+	t.Parallel()
+
+	s := persistence.Store(persistence.MongoMemoryDB())
+
+	sched, err := schedule.Create(s)
+	expect.NoError("creating schedule", err, t)
+	f1, err := fixture.Create(s)
+	expect.NoError("creating fixture", err, t)
+	f2, err := fixture.Create(s)
+	expect.NoError("creating fixture", err, t)
+	err = sched.IncludeFixture(f1)
+	expect.NoError("including fixture", err, t)
+	err = sched.IncludeFixture(f2)
+	expect.NoError("including fixture", err, t)
+
+	schedView, err := MakeSchedule(data.NewAnonAccess(s), sched)
+	expect.NoError("making schedule", err, t)
+
+	if len(schedView.Fixtures) != 2 {
+		t.Errorf("Schedule should generate correct number of fixtures, in this case 2")
+	}
+}
