@@ -4,6 +4,28 @@
 
 {{define "Title"}} Base Schedule {{end}}
 
-{{define "FixtureView"}} Your base schedule has {{len .Fixtures }} fixtures. {{end}}
+{{define "FixtureView"}}
+    {{if .HasSelectedFixture }}
+        {{with .SelectedFixture}}
+            Selected Fixture: {{ .Name }}
+        {{end}}
+    {{else}}
+        Your base schedule has {{len .Fixtures }} fixtures.
+    {{end}}
+{{end}}
 
-{{define "Buttons"}} {{end}}
+{{define "Buttons"}}
+    {{if .HasSelectedFixture }}
+        {{with .SelectedFixture}}
+            <form class="add-fixture-button" action="/user/schedules/base/edit_fixture" method="GET">
+                <input type="text" name="fixture_id" value="{{.ID}}" style="display:none;">
+                <input type="submit" value="Edit">
+            </form>
+
+            <form class="add-fixture-button" action="/user/schedules/base/delete_fixture" method="GET">
+                <input type="text" name="fixture_id" value="{{.ID}}" style="display:none;">
+                <input type="submit" value="Delete">
+            </form>
+        {{end}}
+    {{end}}
+{{end}}

@@ -1,6 +1,7 @@
 {{define "Head"}}
     <title> User Calendar </title>
     <link rel="stylesheet" type="text/css" href="/css/calendar.css">
+    <link rel="stylesheet" type="text/css" href="/css/user/schedules/layout.css">
 {{end}}
 
 {{define "Header"}} {{end}}
@@ -18,12 +19,7 @@
         <tr>
             {{range .Days}}
                 <td>
-                {{range .Fixtures}}
-                    <div class="fixture"
-                    style="position: relative; top:{{ .RelStart }}%; height:{{.RelHeight}}%; width: 100%;">
-                    {{.Name}}
-                    </div>
-                {{end}}
+                    {{template "Schedule" .}}
                 </td>
             {{end}}
         </tr>

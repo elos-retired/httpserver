@@ -29,10 +29,15 @@ func RenderUserSchedules(c *transfer.HTTPConnection) error {
 	return Render(c, UserSchedules, c.Client().(models.User))
 }
 
-func RenderUserSchedulesBase(c *transfer.HTTPConnection) error {
+func RenderUserSchedulesBase(c *transfer.HTTPConnection, selectedFixture models.Fixture) error {
 	sv, err := userSchedulesBaseView(c)
 	if err != nil {
 		return err
+	}
+
+	sv.SelectedFixture = selectedFixture
+	if selectedFixture != nil {
+		sv.HasSelectedFixture = true
 	}
 
 	return Render(c, UserSchedulesBase, sv)

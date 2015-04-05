@@ -1,0 +1,20 @@
+{{define "Schedule"}}
+    <div class="schedule-container">
+        <div class="schedule">
+            {{range .Fixtures}}
+                {{template "Fixture" .}}
+            {{end}}
+        </div>
+    </div>
+{{end}}
+
+{{define "Fixture"}}
+    <div class="fixture" style="position: absolute; top:{{ .RelStart }}%; height:{{.RelHeight}}%; width: 100%;">
+        <form action="/user/schedules/base/" method="GET">
+            <input name="selected_id" type="text" value="{{.ID}}" style="display:none;">
+            <input type="submit" style="opacity:0;width:100%;height:100%;">
+        </form>
+        <div class="name"> {{.Name}} </div>
+        <div class="time"> {{.Time}} </div>
+    </div>
+{{end}}

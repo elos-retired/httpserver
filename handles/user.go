@@ -1,6 +1,7 @@
 package handles
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -20,6 +21,31 @@ func Template(t TemplateHandle) AccessHandle {
 		c := transfer.NewHTTPConnection(w, r, a)
 		templates.CatchError(c, t(c))
 	}
+}
+
+func UserSchedulesBase(w http.ResponseWriter, r *http.Request, p httprouter.Params, a data.Access) {
+	c := transfer.NewHTTPConnection(w, r, a)
+	templates.CatchError(c, userSchedulesBase(c, p))
+}
+
+func userSchedulesBase(c *transfer.HTTPConnection, p httprouter.Params) error {
+	selectedFixtureID := c.Request().FormValue("selected_id")
+
+	log.Print(selectedFixtureID)
+
+	id, err := c.Access.ParseID(selectedFixtureID)
+	if err != nil {
+		log.Print(err)
+		return templates.RenderUserSchedulesBase(c, nil)
+	}
+
+	// we don't care  about this error
+	// because the fixture will be nil if
+	// the error isn't and then will just be ignored
+	// which is what we want anyway
+	f, _ := fixture.Find(c.Access, id)
+
+	return templates.RenderUserSchedulesBase(c, f)
 }
 
 func UserSchedulesWeekday(w http.ResponseWriter, r *http.Request, p httprouter.Params, a data.Access) {

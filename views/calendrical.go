@@ -19,6 +19,7 @@ type (
 	}
 
 	CalendarFixture struct {
+		ID        string
 		Name      string
 		Time      string
 		RelStart  float32
@@ -26,8 +27,9 @@ type (
 	}
 
 	Schedule struct {
-		SelectedFixture models.Fixture
-		Fixtures        []*CalendarFixture
+		HasSelectedFixture bool
+		SelectedFixture    models.Fixture
+		Fixtures           []*CalendarFixture
 	}
 )
 
@@ -88,6 +90,7 @@ func RelativeHeight(t data.Timeable) float32 {
 
 func MakeCalendarFixture(f models.Fixture) *CalendarFixture {
 	return &CalendarFixture{
+		ID:        f.ID().String(),
 		Name:      f.Name(),
 		Time:      FormattedTimeable(f),
 		RelStart:  RelativeStartPosition(f) * 100,

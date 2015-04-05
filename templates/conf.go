@@ -88,7 +88,7 @@ func Sessions(v ...string) []string {
 
 // Schedules prepends variadic arguments with the layout and schedules templates
 func Schedules(v ...string) []string {
-	return Layout(Prepend(schedulesLayoutTemplate, v...)...)
+	return Layout(Prepend(schedulesLayoutTemplate, Prepend("user/schedules/common.tmpl", v...)...)...)
 }
 
 // Definition of the available templateSets for elos
@@ -100,7 +100,7 @@ var templateSets = map[Name][]string{
 	Register:       Sessions("sessions/register.tmpl"),
 	AccountCreated: Sessions("sessions/account-created.tmpl"),
 
-	UserCalendar:  Layout("user/calendar.tmpl"),
+	UserCalendar:  Layout("user/schedules/common.tmpl", "user/calendar.tmpl"),
 	UserEvents:    Layout("user/events.tmpl"),
 	UserTasks:     Layout("user/tasks.tmpl"),
 	UserRoutines:  Layout("user/routines.tmpl"),

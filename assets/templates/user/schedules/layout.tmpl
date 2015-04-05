@@ -18,13 +18,7 @@
 </div>
 
 <div class="element">
-    <div class="schedule-container">
-        <div class="schedule">
-            {{range .Fixtures}}
-                {{template "Fixture" .}}
-            {{end}}
-        </div>
-    </div>
+    {{template "Schedule" .}}
     <form class="add-fixture-button" action="/user/schedules/base/add_fixture" method="GET">
         <input type="submit" value="Add Fixture">
     </form>
@@ -33,9 +27,3 @@
 
 {{define "Footer"}} {{end}}
 
-{{define "Fixture"}}
-    <div class="fixture" style="position: absolute; top:{{ .RelStart }}%; height:{{.RelHeight}}%; width: 100%;">
-        <div class="name"> {{.Name}} </div>
-        <div class="time"> {{.Time}} </div>
-    </div>
-{{end}}

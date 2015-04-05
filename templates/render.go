@@ -43,6 +43,11 @@ func Render(c *transfer.HTTPConnection, name Name, data interface{}) error {
 	template with the supplied data
 */
 func renderTemplate(c *transfer.HTTPConnection, name Name, data interface{}) error {
+	err := parseHTMLTemplates(templateSets)
+	if err != nil {
+		return err
+	}
+
 	t, ok := templates[name]
 
 	if !ok {

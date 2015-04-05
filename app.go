@@ -57,10 +57,10 @@ func setupRoutes(s *HTTPServer) {
 	s.GET(UserTasks, UserTemplate(templates.RenderUserTasks, store))
 	s.GET(UserRoutines, UserTemplate(templates.RenderUserRoutines, store))
 	s.GET(UserSchedules, UserTemplate(templates.RenderUserSchedules, store))
-	s.GET(UserSchedulesBase, UserTemplate(templates.RenderUserSchedulesBase, store))
 	s.GET(UserSchedulesWeekly, UserTemplate(templates.RenderUserSchedulesWeekly, store))
 	s.GET(UserSchedulesYearly, UserTemplate(templates.RenderUserSchedulesYearly, store))
 
+	s.GET(UserSchedulesBase, UserAuth(handles.UserSchedulesBase, store))
 	s.GET(UserSchedulesBaseAddFixture, UserTemplate(templates.RenderUserSchedulesBaseAddFixture, store))
 	s.POST(UserSchedulesBaseAddFixture, UserAuth(handles.UserSchedulesBaseAddFixture, store))
 
