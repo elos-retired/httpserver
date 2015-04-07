@@ -9,8 +9,22 @@ import (
 )
 
 func RenderUserCalendar(c *transfer.HTTPConnection) error {
-	RenderFakeCalendar(c.ResponseWriter(), c.Request())
-	return nil
+	u, ok := c.Client().(models.User)
+	if !ok {
+		return models.CastError(models.UserKind)
+	}
+
+	cal, err := u.Calendar(c.Access)
+	if err != nil {
+		return err
+	}
+
+	cw, err := views.MakeCalendarWeek(c.Access, cal)
+	if err != nil {
+		return err
+	}
+
+	return renderTemplate(c, UserCalendar, cw)
 }
 
 func RenderUserEvents(c *transfer.HTTPConnection) error {

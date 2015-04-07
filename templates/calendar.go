@@ -4,28 +4,8 @@ import (
 	"net/http"
 
 	"github.com/elos/httpserver/views"
-	"github.com/elos/models"
 	"github.com/elos/transfer"
 )
-
-func RenderCalendar(c *transfer.HTTPConnection) error {
-	u, ok := c.Client().(models.User)
-	if !ok {
-		return models.CastError(models.UserKind)
-	}
-
-	cal, err := u.Calendar(c.Access)
-	if err != nil {
-		return err
-	}
-
-	cw, err := views.MakeCalendarWeek(c.Access, cal)
-	if err != nil {
-		return err
-	}
-
-	return renderTemplate(c, UserCalendar, cw)
-}
 
 func RenderFakeCalendar(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(transfer.NewHTTPConnection(w, r, nil), UserCalendar, &views.CalendarWeek{
