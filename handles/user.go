@@ -10,6 +10,7 @@ import (
 	"github.com/elos/httpserver/templates"
 	"github.com/elos/models"
 	"github.com/elos/models/fixture"
+	"github.com/elos/models/persistence"
 	"github.com/elos/transfer"
 	"github.com/julienschmidt/httprouter"
 )
@@ -117,20 +118,17 @@ func userSchedulesBaseAddFixture(c *transfer.HTTPConnection, a data.Access) erro
 		return NewBadParamError("end_time", err.Error())
 	}
 
-	cal, err := c.Client().(models.User).Calendar(a)
+	cal, err := c.Client().(models.User).Calendar(persistence.ModelsStore(a))
 	if err != nil {
 		return err
 	}
 
-	s, err := cal.BaseSchedule(a)
+	s, err := cal.BaseSchedule(persistence.ModelsStore(a))
 	if err != nil {
 		return err
 	}
 
-	f, err := fixture.New(a)
-	if err != nil {
-		return err
-	}
+	f := fixture.New(persistence.ModelsStore(a))
 
 	f.SetName(params["name"])
 	f.SetStartTime(start_time)

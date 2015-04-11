@@ -6,6 +6,7 @@ import (
 
 	"github.com/elos/data"
 	"github.com/elos/models"
+	"github.com/elos/models/persistence"
 )
 
 type (
@@ -112,7 +113,7 @@ func MakeCalendarDay(a data.Access, s models.Schedule) (*CalendarDay, error) {
 	cd := new(CalendarDay)
 	cd.Header = CalendarHeader(s.StartTime())
 
-	fs, err := s.OrderedFixtures(a)
+	fs, err := s.OrderedFixtures(persistence.ModelsStore(a))
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +132,7 @@ func MakeCalendarWeek(a data.Access, cal models.Calendar) (*CalendarWeek, error)
 
 	now := time.Now()
 	for i := 0; i < 5; i++ {
-		sched, err := cal.IntegratedSchedule(a, now)
+		sched, err := cal.IntegratedSchedule(persistence.ModelsStore(a), now)
 		if err != nil {
 			return nil, err
 		}
@@ -164,7 +165,7 @@ this code was for creating the calendar if a user didn't already have one
 */
 
 func MakeSchedule(a data.Access, sched models.Schedule) (*Schedule, error) {
-	fixtures, err := sched.Fixtures(a)
+	fixtures, err := sched.Fixtures(persistence.ModelsStore(a))
 	if err != nil {
 		return nil, err
 	}

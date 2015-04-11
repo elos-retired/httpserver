@@ -4,6 +4,7 @@ import (
 	"github.com/elos/httpserver/views"
 	"github.com/elos/models"
 	"github.com/elos/models/calendar"
+	"github.com/elos/models/persistence"
 	"github.com/elos/models/user"
 	"github.com/elos/transfer"
 )
@@ -14,7 +15,7 @@ func RenderUserCalendar(c *transfer.HTTPConnection) error {
 		return models.CastError(models.UserKind)
 	}
 
-	cal, err := u.Calendar(c.Access)
+	cal, err := u.Calendar(persistence.ModelsStore(c.Access))
 	if err != nil {
 		return err
 	}
@@ -61,10 +62,10 @@ func userSchedulesBaseView(c *transfer.HTTPConnection) (*views.Schedule, error) 
 	u := c.Client().(models.User)
 	a := c.Access
 
-	cal, err := u.Calendar(a)
+	cal, err := u.Calendar(persistence.ModelsStore(a))
 	if err != nil {
 		if err == models.ErrEmptyRelationship {
-			if err = user.NewCalendar(a, u); err != nil {
+			if err = user.NewCalendar(persistence.ModelsStore(a), u); err != nil {
 				return nil, NewServerError(err)
 			}
 		} else {
@@ -72,10 +73,10 @@ func userSchedulesBaseView(c *transfer.HTTPConnection) (*views.Schedule, error) 
 		}
 	}
 
-	sch, err := cal.BaseSchedule(a)
+	sch, err := cal.BaseSchedule(persistence.ModelsStore(a))
 	if err != nil {
 		if err == models.ErrEmptyRelationship {
-			if err = calendar.NewBaseSchedule(a, cal); err != nil {
+			if err = calendar.NewBaseSchedule(persistence.ModelsStore(a), cal); err != nil {
 				return nil, NewServerError(err)
 			}
 		} else {
