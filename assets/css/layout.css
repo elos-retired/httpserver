@@ -22,13 +22,13 @@
     width: 100%;
     align-self: flex-start;
     flex: 1;
-    min-height: 50px;
+    min-height: 5%;
 }
 
 #body {
     width: 100%;
     flex: 1;
-    min-height: 90%;
+    min-height: 89%;
 
     display: flex;
     justify-content: center;
@@ -40,6 +40,7 @@
     width: 100%;
     align-self: flex-end;
     flex: 1;
+    min-height: 5%;
 }
 
 #header, #footer {

@@ -13,11 +13,22 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     width:100%;
-    height:100%;
+    height:110%;
 }
 
 #header {
     justify-content: space-between;
+    min-height: 5.5%;
+}
+
+#body {
+    min-height:85%;
+    flex-direction: row;
+}
+
+#footer {
+    min-height:10%;
+    background-color: #000000;
 }
 
 .per-aspera {
@@ -32,7 +43,10 @@ body {
 .elos.index {
     text-align: right;
     margin-right: 10px;
-    width: 100%;
+    min-width: 100%;
+    display:flex;
+    flex:1;
+    align-self:flex-end;
 }
 
 a.button {
