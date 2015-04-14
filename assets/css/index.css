@@ -22,8 +22,9 @@ body {
 }
 
 #body {
-    min-height:85%;
+    min-height:86%;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #footer {
@@ -31,8 +32,23 @@ body {
     background-color: #000000;
 }
 
+.aspera-container {
+    flex: 1;
+    display: flex;
+    min-width: 100%;
+    align-self: center;
+}
+
+.elos-container {
+    flex: 1;
+    display:flex;
+    min-width:100%;
+    align-self:flex-end;
+    margin-right:20px;
+}
+
 .per-aspera {
-    margin-top: 35%;
+    margin-top:32%;
     width: 100%;
     text-align: center;
     color: white;
@@ -44,9 +60,6 @@ body {
     text-align: right;
     margin-right: 10px;
     min-width: 100%;
-    display:flex;
-    flex:1;
-    align-self:flex-end;
 }
 
 a.button {
