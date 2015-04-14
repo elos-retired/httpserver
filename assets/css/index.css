@@ -22,13 +22,13 @@ body {
 }
 
 #body {
-    min-height:86%;
+    min-height:82%;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
 #footer {
-    min-height:10%;
+    min-height:3%;
     background-color: #000000;
 }
 
