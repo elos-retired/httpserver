@@ -1,23 +1,17 @@
-{{define "Head"}} <link rel="stylesheet" type="text/css" href="/css/index.css"> {{end}}
+{{define "HEAD"}} <link rel="stylesheet" type="text/css" href="/css/index.css"> {{end}}
 
 {{define "Header"}}
-        <a href="/register" class="button register">Register</a>
-        <a href="/sign-in" class="button sign-in">Sign In</a>
+    <a href="/register" class="button register">Register</a>
+    <a href="/sign-in" class="button sign-in">Sign In</a>
 {{end}}
 
-{{define "Body"}}
-        <div class="aspera-container">
-            <h1 class="per-aspera">PER ASPERA</h1>
-        </div>
-        <div class="elos-container">
-            <h2 class="elos index">elos</h2>
-        </div>
+{{define "Content"}}
+    <h1 class="per-aspera">PER ASPERA</h1>
+    <h1 class="elos index">elos</h1>
 {{end}}
 
 {{define "Footer"}}
-    <div style="width:100%;padding-right:20px;">
-        <p style="color:white;text-align:center;font-size:.75em;">
-        © Elos LLC, 2015
-        </p>
-    </div>
+    <h2 id="bottom-links">
+        © Elos LLC, 2015  -  <a href="http://doc.elos.io"> Documentation </a>  -  <a href="https://github.com/elos/"> Development </a>
+    </h2>
 {{end}}

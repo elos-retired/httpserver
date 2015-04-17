@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="/css/style.css">
         <link rel="stylesheet" type="text/css" href="/css/layout.css">
-        {{template "Head" $}}
+        {{template "HEAD" $}}
     </head>
     <body>
         <div id="root">
@@ -12,13 +12,14 @@
                 <h1 class="elos layout">elos</h1>
                 {{template "Header" $}}
             </div>
-            <div id="body">
-                {{template "Body" $}}
+            <div id="content">
+                {{template "Content" $}}
             </div>
             <div id="footer">
                 {{template "Footer" $}}
             </div>
         </div>
+
         <div id="altroot" style="display:none">
             {{ template "BadBrowser" }}
             <script type="text/javascript">

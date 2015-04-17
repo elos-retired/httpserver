@@ -28,15 +28,21 @@
 a.button {
     color: #00FFA3;
     background: none;
+    padding: 0.3em;
     border: 1px #00FFA3 solid;
-    outline: none;
-    font-size: .85em;
-    padding: 5px;
+    border-radius: 5px;
+
     cursor: pointer;
+    outline: none;
+
+    height: 1.6em;
+    line-height: 1.6em;
+    font-size: .85em;
+    font-family: "Avenir Next Regular";
+
     text-align: center;
     text-decoration: none;
-    border-radius: 5px;
-    font-family: "Avenir Next Regular";
+
 }
 
 input[type="submit"] {

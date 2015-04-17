@@ -1,55 +1,57 @@
+/* global reset */
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* ensure background, select font */
 body {
+    background-color: white;
     font-family: "Avenir Next Regular";
 }
 
-.elos {
-    font-size: .8em;
-    color: #00FFA3;
-    font-family: "Avenir Next UltraLight";
+div#root {
+    width: 100wh;
+
+    display: flex;
+    flex-direction: column;
 }
 
-.elos.layout {
-    text-align: center;
-}
+div#header {
+    min-width: 100%;
 
-#root {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   width:100%;
-   position:absolute;
-   top:0;
-   bottom:0;
-}
-
-#header {
-    width: 100%;
+    flex: 1;
     align-self: flex-start;
-    flex: 1;
-    min-height: 5%;
 }
 
-#body {
-    width: 100%;
+div#content {
+    min-width: 100%;
+
     flex: 1;
-    min-height: 89%;
 
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    font-family: "Avenir Next Regular";
 }
 
-#footer {
-    width: 100%;
-    align-self: flex-end;
+div#footer {
+    min-width: 100%;
+
     flex: 1;
-    min-height: 5%;
+    align-self: flex-end;
 }
 
-#header, #footer {
+div#header, div#footer {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+}
+
+h1.elos {
+    color: #00FFA3;
+    font-size: .8em;
+    font-family: "Avenir Next UltraLight";
+}
+
+h1.elos.layout {
+    text-align: center;
 }

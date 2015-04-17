@@ -3,75 +3,82 @@
     display: none;
 }
 
-body {
-    padding: 0;
-    margin: 0;
-}
-
-#root {
+div#root {
     background: url("/img/sail.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     width:100%;
-    height:110%;
+    height:100vh;
 }
 
-#header {
+div#header {
+    min-height: 10vh;
     justify-content: space-between;
-    min-height: 5.5%;
 }
 
-#body {
-    min-height:82%;
-    flex-direction: row;
+div#content {
+    min-height: 90vh;
+
+    flex-direction: column;
     flex-wrap: wrap;
 }
 
-#footer {
-    min-height:3%;
+div#footer {
+    min-height: 6vh;
+    text-decoration: none;
     background-color: #000000;
+
+    justify-content: center;
+    align-items: center;
 }
 
-.aspera-container {
-    flex: 1;
-    display: flex;
-    min-width: 100%;
-    align-self: center;
-}
+h1.per-aspera {
+    width: 100wh;
 
-.elos-container {
-    flex: 1;
-    display:flex;
-    min-width:100%;
-    align-self:flex-end;
-    margin-right:20px;
-}
-
-.per-aspera {
-    margin-top:32%;
-    width: 100%;
-    text-align: center;
     color: white;
     font-family: "Avenir Next Regular";
+    text-align: center;
     letter-spacing: 2px;
+
+    flex: 1;
+    align-self: center;
+    margin-top:32%;
 }
 
-.elos.index {
+h1.elos.index {
+    width:100wh;
+    max-height: 30px;
+    margin-right: 15px;
+
     text-align: right;
-    margin-right: 10px;
-    min-width: 100%;
+
+    flex: 1;
+    align-self: flex-end;
+}
+
+h2#bottom-links {
+    width: 100wh;
+    max-height: 6vh;
+
+    color: #979797;
+    font-size: 0.7em;
+    font-family: "Avenir Next Medium";
+}
+
+h2#bottom-links > a, h2#bottom-links > a:visited{
+    color: #979797;
 }
 
 a.button {
     width: 90px;
 }
 
-.button.sign-in {
-    margin: 15px 10px 0 0;
+a.button.sign-in {
+    margin: 15px;
 }
 
-.button.register {
-    margin: 15px 0 0 10px;
+a.button.register {
+    margin: 15px;
     color: #FF005C;
     border: 1px #FF005C solid;
 }
