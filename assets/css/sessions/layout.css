@@ -57,11 +57,3 @@ form.sessions > input[type="submit"] {
     cursor: pointer;
     color: #00FFA3;
 }
-
-/* for account-created */
-p.info-text {
-    font-family: "Avenir Next Regular";
-    font-size: .8em;
-    color: #000000;
-    line-height: 25px;
-}

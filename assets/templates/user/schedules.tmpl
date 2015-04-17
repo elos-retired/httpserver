@@ -1,22 +1,23 @@
-{{define "Head"}}
+{{define "HEAD"}}
     <link rel="stylesheet" type="text/css" href="/css/user/schedules.css">
     <title> User Schedules </title>
 {{end}}
 
 {{define "Header"}} {{end}}
 
-{{define "Body"}}
-<div class="center-contents buttons">
-    <form action="/user/schedules/base">
-        <input type="submit" value="Base">
-    </form>
-    <form action="/user/schedules/weekly">
-        <input type="submit" value="Weekly" class="middle-button">
-    </form>
-    <form action="/user/schedules/yearly">
-        <input type="submit" value="Yearly">
-    </form>
-</div>
+{{define "Content"}}
+    <p class="info-text"> Welcome to user schedules. </p>
+    <div id="buttons">
+        <form action="/user/schedules/base">
+            <input type="submit" value="Base">
+        </form>
+        <form action="/user/schedules/weekly">
+            <input type="submit" value="Weekly" class="middle-button">
+        </form>
+        <form action="/user/schedules/yearly">
+            <input type="submit" value="Yearly">
+        </form>
+    </div>
 {{end}}
 
 {{define "Footer"}} {{end}}
