@@ -1,11 +1,18 @@
 {{define "Title"}} Account Created {{end}}
 
 {{define "Form"}}
-    <p class="text"> Welcome {{ .Name }}, we have created an account for you. These are your credentials:</p>
-    <div class="account-created">
+    <form class="sessions" action="/sign-in" method="GET">
+        <p class="info-text">
+          Welcome {{ .Name }}, we have created an account for you. These are your credentials:
+        </p>
+
         <input type="text" name="id" value="{{ .ID }}" placeholder="ID" disabled>
         <input type="text" name="key" value="{{ .Key }}" placeholder="Key" disabled>
-    </div>
-    <p class="text">Your credentials consist of a personal identification token, and access key</p>
-    <a href="/sign-in">Continue</a>
+
+        <p class="info-text">
+            Your credentials consist of a personal identification token, and access key
+        </p>
+
+        <input type="submit" value="Continue">
+    </form>
 {{end}}

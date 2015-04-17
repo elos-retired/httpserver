@@ -1,0 +1,67 @@
+/* setup header */
+div#header {
+    min-height: 5vh;
+}
+
+/* setup content for title and form */
+div#content {
+    min-height: 70vh;
+
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Registration/Signup/AccountCreated */
+h1#title {
+    width: 100vw;
+    max-height: 2em;
+
+    color: #979797;
+    font-size: 1em;
+    text-align: center;
+    line-height: 1.5em;
+
+    flex: 1;
+}
+
+/* the actual form */
+form.sessions {
+    width: 100vw;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* The input elements within the form */
+form.sessions > input[type="text"] {
+    width: 50vw;
+    max-height: 2em;
+
+    font-size: 1em;
+    line-height: 1.5em;
+
+    margin: 0.2em;
+}
+
+/* the button of the form: sign up, sign in, ok */
+form.sessions > input[type="submit"] {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: .85em;
+    padding: 5px;
+    cursor: pointer;
+    color: #00FFA3;
+}
+
+/* for account-created */
+p.info-text {
+    font-family: "Avenir Next Regular";
+    font-size: .8em;
+    color: #000000;
+    line-height: 25px;
+}

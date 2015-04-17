@@ -1,9 +1,9 @@
 {{define "Title"}} Authentication {{end}}
 
 {{define "Form"}}
-    <form action="/sign-in" method="POST">
+    <form class="sessions" action="/sign-in" method="POST">
         <input type="text" name="id" value="" placeholder="ID">
         <input type="text" name="key" value="" placeholder="Key">
-        <input type="submit" class="float-right" value="Sign In">
+        <input type="submit" value="Sign In">
     </form>
 {{end}}

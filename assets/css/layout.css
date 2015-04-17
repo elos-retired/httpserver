@@ -10,6 +10,8 @@ body {
     font-family: "Avenir Next Regular";
 }
 
+/* the root element, display flex
+ * contains: header, content, footer */
 div#root {
     width: 100wh;
 
@@ -17,6 +19,7 @@ div#root {
     flex-direction: column;
 }
 
+/* aligned top of layout */
 div#header {
     min-width: 100%;
 
@@ -24,6 +27,7 @@ div#header {
     align-self: flex-start;
 }
 
+/* fills space between header & footer */
 div#content {
     min-width: 100%;
 
@@ -34,6 +38,7 @@ div#content {
     align-items: flex-start;
 }
 
+/* aligned bottom of layout */
 div#footer {
     min-width: 100%;
 
@@ -41,17 +46,23 @@ div#footer {
     align-self: flex-end;
 }
 
+/* both header & footer are themselves
+ * flex layouts, in the horizontal manner */
 div#header, div#footer {
     display: flex;
     flex-direction: row;
 }
 
+/* the iconic green */
 h1.elos {
     color: #00FFA3;
     font-size: .8em;
+    line-height: 3em;
     font-family: "Avenir Next UltraLight";
 }
 
+/* the word elos centered at top */
 h1.elos.layout {
+    width:100vw;
     text-align: center;
 }

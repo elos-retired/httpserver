@@ -1,20 +1,12 @@
-{{define "Head"}}
-    <link rel="stylesheet" type="text/css" href="/css/sessions.css">
+{{define "HEAD"}}
+    <link rel="stylesheet" type="text/css" href="/css/sessions/layout.css">
 {{end}}
 
 {{define "Header"}} {{end}}
 
-{{define "Body"}}
-<div class="sessions-container">
-    <div class="element">
-        <h1 class="title">
-        {{template "Title" $}}
-        </h1>
-    </div>
-    <div class="element">
+{{define "Content"}}
+    <h1 id="title"> {{template "Title" $}} </h1>
     {{template "Form" $}}
-    </div>
-</div>
 {{end}}
 
 {{define "Footer"}} {{end}}
